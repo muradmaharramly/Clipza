@@ -119,11 +119,12 @@ export default function AutomationFlow() {
     const el = wrapperRef.current;
     if (!el) return;
     const onWheel = (e) => {
+      if (!e.ctrlKey && !e.metaKey) return; // Ignore if Ctrl/Cmd is not pressed, allowing normal page scroll
       e.preventDefault();
       const rect = el.getBoundingClientRect();
       const mx = e.clientX - rect.left;
       const my = e.clientY - rect.top;
-      const factor = e.deltaY < 0 ? 1.1 : 0.9;
+      const factor = e.deltaY < 0 ? 1.015 : 0.985;
       const oldS = transformRef.current.scale;
       const newS = Math.min(Math.max(oldS * factor, 0.15), 3);
       transformRef.current.x = mx - (mx - transformRef.current.x) * (newS / oldS);
@@ -223,7 +224,7 @@ export default function AutomationFlow() {
           </p>
           <div className={styles.headerActions}>
             <button
-              className={`primaryBtn ${styles.seeHowBtn} ${isRunning ? styles.disabled : ''}`}
+              className={`primaryBtn no-rotate ${styles.seeHowBtn} ${isRunning ? styles.disabled : ''}`}
               onClick={() => { if (!isRunning && phase < 2) runSequence(); }}
             >
               <span className="btn-text">{isRunning ? 'Running...' : 'See how it works'}</span>
@@ -402,7 +403,7 @@ export default function AutomationFlow() {
         </div>
 
         {/* Hint */}
-        <div className={styles.canvasHint}>Scroll to zoom · Drag to pan</div>
+        <div className={styles.canvasHint}>Ctrl + Scroll to zoom &middot; Drag to pan</div>
       </div>
     </section>
   );

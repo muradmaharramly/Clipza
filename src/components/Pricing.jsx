@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FiCheck, FiArrowRight } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiCheck, FiArrowRight, FiLoader } from 'react-icons/fi';
 import styles from './Pricing.module.scss';
 import MagneticButton from './MagneticButton';
 
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
-  const [calcVideos, setCalcVideos] = useState(100);
+  const [shortVideos, setShortVideos] = useState(100);
+  const [longVideos, setLongVideos] = useState(20);
+  const [aiGenerations, setAiGenerations] = useState(500);
   const [calcAPI, setCalcAPI] = useState(10);
+  const [calculatedPrice, setCalculatedPrice] = useState(null);
+  const [isCalculating, setIsCalculating] = useState(false);
 
   const plans = [
     { name: "Starter", sub: "For side hustlers", price: billingCycle === 'monthly' ? 10 : 8, features: ["Standard Tools", "No API access"] },
@@ -22,8 +26,15 @@ const Pricing = () => {
     { name: "Powerhouse", sub: "Unlimited growth", price: billingCycle === 'monthly' ? 99 : 79, features: ["60 Videos / mo", "24/7 Support", "Niche Adviser"] }
   ];
 
-  const estimatedPrice = Math.floor((calcVideos * 1.5) + (calcAPI * 20));
-
+  const handleCalculate = () => {
+    if (isCalculating) return;
+    setIsCalculating(true);
+    setCalculatedPrice(null);
+    setTimeout(() => {
+      setCalculatedPrice(Math.floor((shortVideos * 0.5) + (longVideos * 2.5) + (aiGenerations * 0.1) + (calcAPI * 15)));
+      setIsCalculating(false);
+    }, 800);
+  };
   const springConfig = { type: "spring", stiffness: 100, damping: 20 };
 
   return (
@@ -125,35 +136,84 @@ const Pricing = () => {
             </div>
             
             <div className={styles.calcBody}>
-              <div className={styles.calcItem}>
-                <div className={styles.calcLabel}>
-                  <span>Videos Per Month</span>
-                  <span className={styles.val}>{calcVideos}</span>
+              <div className={styles.calcGrid}>
+                <div className={styles.calcItem}>
+                  <div className={styles.calcLabel}>
+                    <span>Short Videos</span>
+                    <span className={styles.val}>{shortVideos}</span>
+                  </div>
+                  <input 
+                    type="range" min="0" max="2000" step="50" 
+                    value={shortVideos} 
+                    onChange={(e) => { setShortVideos(Number(e.target.value)); setCalculatedPrice(null); }}
+                    className={styles.calcSlider}
+                  />
                 </div>
-                <input 
-                  type="range" min="100" max="5000" step="100" 
-                  value={calcVideos} onChange={(e) => setCalcVideos(Number(e.target.value))}
-                  className={styles.calcSlider}
-                />
+
+                <div className={styles.calcItem}>
+                  <div className={styles.calcLabel}>
+                    <span>Long Videos</span>
+                    <span className={styles.val}>{longVideos}</span>
+                  </div>
+                  <input 
+                    type="range" min="0" max="500" step="10" 
+                    value={longVideos} 
+                    onChange={(e) => { setLongVideos(Number(e.target.value)); setCalculatedPrice(null); }}
+                    className={styles.calcSlider}
+                  />
+                </div>
+
+                <div className={styles.calcItem}>
+                  <div className={styles.calcLabel}>
+                    <span>AI Generate (Posts)</span>
+                    <span className={styles.val}>{aiGenerations}</span>
+                  </div>
+                  <input 
+                    type="range" min="0" max="5000" step="100" 
+                    value={aiGenerations} 
+                    onChange={(e) => { setAiGenerations(Number(e.target.value)); setCalculatedPrice(null); }}
+                    className={styles.calcSlider}
+                  />
+                </div>
+
+                <div className={styles.calcItem}>
+                  <div className={styles.calcLabel}>
+                    <span>API Requests (k)</span>
+                    <span className={styles.val}>{calcAPI}</span>
+                  </div>
+                  <input 
+                    type="range" min="0" max="1000" step="10" 
+                    value={calcAPI} 
+                    onChange={(e) => { setCalcAPI(Number(e.target.value)); setCalculatedPrice(null); }}
+                    className={styles.calcSlider}
+                  />
+                </div>
               </div>
 
-              <div className={styles.calcItem}>
-                <div className={styles.calcLabel}>
-                  <span>API Requests (thousands)</span>
-                  <span className={styles.val}>{calcAPI}k</span>
+              <div className={styles.calcFooter}>
+                <div className={styles.calcResult}>
+                  <div className={styles.resLabel}>Estimated Price</div>
+                  <div className={styles.resAmount}>
+                    {calculatedPrice !== null ? (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }} 
+                        animate={{ opacity: 1, y: 0 }}
+                      >
+                        {calculatedPrice} <small>AZN / mo</small>
+                      </motion.div>
+                    ) : (
+                      <div className={styles.resPlaceholder}>-- <small>AZN / mo</small></div>
+                    )}
+                  </div>
                 </div>
-                <input 
-                  type="range" min="10" max="1000" step="10" 
-                  value={calcAPI} onChange={(e) => setCalcAPI(Number(e.target.value))}
-                  className={styles.calcSlider}
-                />
-              </div>
 
-              <div className={styles.calcResult}>
-                <div className={styles.resLabel}>Estimated Price</div>
-                <div className={styles.resAmount}>
-                  {estimatedPrice} <small>AZN / mo</small>
-                </div>
+                <MagneticButton 
+                  className={`primaryBtn ${styles.calcBtn} ${isCalculating ? styles.calculating : ''}`}
+                  onClick={handleCalculate}
+                  icon={isCalculating ? <FiLoader className={styles.spinner} /> : <FiArrowRight />}
+                >
+                  {isCalculating ? 'Calculating' : 'Calculate'}
+                </MagneticButton>
               </div>
             </div>
           </div>

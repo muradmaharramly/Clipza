@@ -431,15 +431,24 @@
 
   button {
     width: 32px; height: 32px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px !important;
+    background: rgba(255,255,255,0.07) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
     color: #fff; font-size: 0.9rem;
     cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    gap: 0 !important;
     transition: background 0.2s;
     backdrop-filter: blur(6px);
-    &:hover { background: rgba(255,255,255,0.14); }
+    box-shadow: none !important;
+    &:hover {
+      background: rgba(255,255,255,0.14) !important;
+      transform: none !important;
+      .btn-icon-wrapper { transform: none !important; }
+    }
   }
 }
 
@@ -467,4 +476,38 @@
 @keyframes ripple {
   0%   { transform: scale(0.8); opacity: 1; }
   100% { transform: scale(1.6); opacity: 0; }
+}
+
+// ── Light Theme Overrides ─────────────────────────────────
+[data-theme="light"] {
+  .svgConnections .basePath {
+    stroke: rgba(0, 0, 0, 0.12);
+  }
+
+  .zoomControls button {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.1) !important;
+    }
+  }
+
+  .canvasHint {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .node:not(.success):not(.processing) {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+
+    .icon {
+      color: #333;
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    .anchorLeft, .anchorRight {
+      background: rgba(0, 0, 0, 0.15);
+    }
+  }
 }
