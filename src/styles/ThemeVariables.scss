@@ -1,0 +1,88 @@
+:root {
+  --primary: #FF0000; 
+  --accent: #CC0000;  
+  --bg-dark: #0a0a0a; 
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+  --glass-bg: rgba(15, 15, 15, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  --btn-bg: #1a1a1a;
+  --surface-grad-start: rgba(255, 255, 255, 0.05);
+  --btn-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.6);
+  --shadow-strong: 0 40px 80px rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="light"] {
+  --bg-dark: #fcfcfd;
+  --text-main: #020617; // Deepest Slate
+  --text-muted: #64748b;
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-border-hover: rgba(255, 0, 0, 0.3);
+  --btn-bg: #f8fafc;
+  --surface-grad-start: rgba(15, 23, 42, 0.01);
+  --card-shadow: 0 4px 20px rgba(15, 23, 42, 0.04); 
+  --btn-shadow: 0 2px 10px rgba(15, 23, 42, 0.02); 
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.05); // Light theme shadow
+  --shadow-strong: 0 20px 50px rgba(15, 23, 42, 0.08); // Light theme strong shadow
+}
+
+// SCSS Aliases
+$primary: var(--primary);
+$accent: var(--accent);
+$bg-dark: var(--bg-dark);
+$text-main: var(--text-main);
+$text-muted: var(--text-muted);
+$glass-bg: var(--glass-bg);
+$glass-border: var(--glass-border);
+$glass-border-hover: var(--glass-border-hover);
+$card-shadow: var(--card-shadow);
+$btn-shadow: var(--btn-shadow);
+$shadow-soft: var(--shadow-soft);
+$shadow-strong: var(--shadow-strong);
+
+// Glassmorphism & Tactile Surfaces
+$glass-blur: 24px;
+$liquid-glass: blur($glass-blur) saturate(180%);
+
+// Tactile Effects (Ref 1 & 2)
+$btn-bg: var(--btn-bg);
+$btn-border: 1px solid var(--glass-border);
+$btn-inset: inset 0 2px 4px rgba(255, 255, 255, 0.05), inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+$glow-primary: 0 0 20px rgba(255, 0, 0, 0.2);
+
+// Gradients
+$primary-grad: linear-gradient(135deg, $primary 0%, $accent 100%);
+$secondary-grad: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+$surface-grad: linear-gradient(180deg, var(--surface-grad-start) 0%, transparent 100%);
+
+// Borders & Radius - Tactile Pill (Ref 1 & 2)
+$radius-bento: 24px; // More rounded for Ref 4
+$radius-pill: 100px;
+$radius-btn: $radius-pill; // Alias for backward compatibility
+$radius-card: 28px;
+$border-thin: 0.5px solid var(--glass-border);
+
+// Spacing Tokens
+$pad-card: 32px;
+$pad-section: 100px;
+
+// Fonts
+$font-main: 'Outfit', system-ui, -apple-system, sans-serif;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+$weight-extra: 800;
+
+// Transitions
+$transition-soft: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+$transition-fast: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+

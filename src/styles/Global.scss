@@ -1,0 +1,225 @@
+@use './ThemeVariables.scss' as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; // Fallback for smooth scroll
+}
+
+body {
+  font-family: $font-main;
+  background-color: $bg-dark;
+  color: $text-main;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 5% 5%, rgba($primary, 0.1) 0%, transparent 40%),
+      radial-gradient(circle at 95% 95%, rgba($accent, 0.1) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, color-mix(in srgb, $bg-dark, white 2%) 0%, $bg-dark 100%);
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.05em;
+  font-weight: $weight-bold;
+  color: $text-main;
+}
+
+section {
+  padding: $pad-section 0; // Reduced from 140px
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: $transition-soft;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  transition: $transition-soft;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 6px 6px 18px !important;
+  border-radius: $radius-pill !important;
+  background: $glass-bg !important;
+  border: $btn-border !important;
+  box-shadow: $btn-inset, $btn-shadow;
+  color: $text-main;
+  font-weight: $weight-bold;
+  backdrop-filter: $liquid-glass;
+  position: relative;
+  overflow: hidden;
+
+  .btn-icon-wrapper {
+    width: 34px;
+    height: 34px;
+    background: $secondary-grad;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $bg-dark;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: $transition-fast;
+    z-index: 2;
+  }
+
+  // Primary Button Logic with Rotating Light
+  &[class*="primary"], &[class*="Primary"], &[class*="Started"] {
+    padding: 6px 6px 6px 20px !important; // Slightly more left padding for balance
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(
+        transparent 0deg,
+        transparent 180deg,
+        $primary 270deg,
+        transparent 360deg
+      );
+      animation: rotate 4s linear infinite;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: $btn-bg;
+      border-radius: $radius-pill;
+      z-index: 1;
+    }
+
+    .btn-text {
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-icon-wrapper {
+      background: $primary-grad;
+      color: #fff; // Always white on orange grad
+    }
+
+    &:hover {
+      .btn-icon-wrapper {
+        // Same colors (Orange/Red), shifted angle, darkened via color-mix
+        background: linear-gradient(225deg, 
+          color-mix(in srgb, $primary, black 8%) 0%, 
+          color-mix(in srgb, $accent, black 8%) 100%
+        );
+        color: #fff;
+      }
+    }
+  }
+
+  // Secondary Button Logic
+  &:not([class*="primary"]):not([class*="Primary"]):not([class*="Started"]) {
+    &:hover {
+      .btn-icon-wrapper {
+        // Same colors (White/Gray), shifted angle, darkened via color-mix
+        background: linear-gradient(225deg, 
+          color-mix(in srgb, #fff, black 10%) 0%, 
+          color-mix(in srgb, #a1a1aa, black 10%) 100%
+        );
+        color: $bg-dark;
+      }
+    }
+  }
+
+  &:hover {
+    background: color-mix(in srgb, $btn-bg, black 4%) !important;
+    transform: translateY(-2px);
+    box-shadow: $btn-inset, $btn-shadow;
+
+    // Default icon rotation - pointing upwards (-45deg)
+    .btn-icon-wrapper {
+      transform: scale(1.1) rotate(-45deg);
+    }
+  }
+
+  // Disable rotation for specific buttons
+  &.no-rotate {
+    &:hover {
+      .btn-icon-wrapper {
+        transform: scale(1.1) rotate(0deg);
+      }
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.4);
+  }
+}
+
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.text-gradient {
+  background: $primary-grad;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bento-block {
+  background: $glass-bg;
+  backdrop-filter: blur($glass-blur);
+  border: $border-thin;
+  border-radius: $radius-bento;
+  box-shadow: $shadow-soft;
+}

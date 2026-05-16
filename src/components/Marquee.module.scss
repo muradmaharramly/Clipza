@@ -1,0 +1,68 @@
+@use '../styles/ThemeVariables.scss' as *;
+
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  padding: 60px 0;
+  background: transparent;
+  border-top: $border-thin;
+  border-bottom: $border-thin;
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    z-index: 2;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, $bg-dark, transparent);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, $bg-dark, transparent);
+  }
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: scroll 40s linear infinite;
+  opacity: 0.3; // Very subtle for Apple-style minimalism
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 60px;
+  color: $text-main;
+  font-size: 1.1rem;
+  font-weight: $weight-medium;
+  white-space: nowrap;
+  transition: $transition-fast;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary;
+    transform: scale(1.05);
+  }
+
+  svg {
+    font-size: 1.4rem;
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}

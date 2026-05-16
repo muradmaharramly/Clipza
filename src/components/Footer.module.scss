@@ -1,0 +1,59 @@
+@use '../styles/ThemeVariables.scss' as *;
+
+.footer {
+  padding: 64px 0; // Reduced padding
+  border-top: $border-thin;
+  background: transparent;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: $weight-bold;
+  color: $text-main;
+
+  span {
+    color: $primary;
+  }
+}
+
+p {
+  color: $text-muted;
+  opacity: 0.5;
+  font-size: 0.8rem;
+  font-weight: $weight-medium;
+}
+
+.legal {
+  display: flex;
+  gap: 24px;
+
+  a {
+    color: $text-muted;
+    opacity: 0.5;
+    font-size: 0.8rem;
+    font-weight: $weight-medium;
+
+    &:hover {
+      color: $text-main;
+      opacity: 1;
+    }
+  }
+}
+
+
+@media (max-width: 640px) {
+  .container {
+    flex-direction: column;
+    gap: 32px;
+    text-align: center;
+  }
+}

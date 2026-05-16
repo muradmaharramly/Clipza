@@ -1,0 +1,218 @@
+@use '../styles/ThemeVariables.scss' as *;
+
+.faqSection {
+  background: transparent;
+  padding: 120px 0;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 100px;
+  align-items: flex-start;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+}
+
+.leftPanel {
+  position: sticky;
+  top: 120px;
+
+  h2 {
+    font-size: clamp(3.5rem, 6vw, 4.5rem);
+    margin-bottom: 20px;
+    letter-spacing: -0.07em;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 48px;
+    max-width: 450px;
+  }
+}
+
+.promptBox {
+  width: 100%;
+  max-width: 420px;
+  background: $bg-dark;
+  border-radius: $radius-pill;
+  padding: 2px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      transparent 0deg,
+      transparent 180deg,
+      $primary 270deg,
+      transparent 360deg
+    );
+    animation: rotate 4s linear infinite;
+  }
+}
+
+.promptInner {
+  position: relative;
+  z-index: 1;
+  background: $glass-bg;
+  backdrop-filter: $liquid-glass;
+  border-radius: inherit;
+  padding: 6px 6px 6px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: $text-main;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: $weight-medium;
+    padding: 10px 0;
+
+    &::placeholder {
+      color: $text-muted;
+      opacity: 0.5;
+    }
+  }
+
+  .sparkle {
+    width: 42px;
+    height: 42px;
+    background: $primary-grad;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba($primary, 0.4);
+    transition: $transition-soft;
+    cursor: pointer;
+
+    &:hover {
+      background: linear-gradient(225deg, color-mix(in srgb, $primary, black 8%) 0%, color-mix(in srgb, $accent, black 8%) 100%);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.item {
+  background: $glass-bg;
+  backdrop-filter: $liquid-glass;
+  border: $border-thin;
+  border-radius: 16px; // Reduced from $radius-card
+  cursor: pointer;
+  overflow: hidden;
+  transition: $transition-soft;
+  margin-bottom: 12px;
+
+  &:hover {
+    background: color-mix(in srgb, $glass-bg, white 3%);
+    border-color: $glass-border-hover;
+
+    .iconCircle {
+      // Keep same colors (White/Gray), shift angle, darken. NO ROTATION.
+      background: linear-gradient(225deg, color-mix(in srgb, #fff, black 10%) 0%, color-mix(in srgb, #a1a1aa, black 10%) 100%);
+      color: $bg-dark;
+      transform: scale(1.1);
+    }
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba($primary, 0.4);
+
+    .iconCircle {
+      transform: rotate(180deg);
+      background: $secondary-grad;
+      color: #111;
+      border-color: transparent;
+    }
+
+    &:hover {
+      .iconCircle {
+        // Active + Hover: NO EXTRA ROTATION, just stay at 180
+        transform: rotate(180deg) scale(1.1);
+        background: linear-gradient(225deg, color-mix(in srgb, #fff, black 10%) 0%, color-mix(in srgb, #a1a1aa, black 10%) 100%);
+      }
+    }
+  }
+
+  @media (max-width: 640px) {
+    border-radius: 12px;
+    .question {
+      padding: 12px 16px;
+      h3 { font-size: 1rem; }
+    }
+  }
+}
+
+.question {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: $weight-bold;
+    color: $text-main;
+    letter-spacing: -0.03em;
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.iconCircle {
+  width: 36px;
+  height: 36px;
+  background: $secondary-grad;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $bg-dark;
+  font-size: 1rem;
+  transition: $transition-fast;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.answerWrapper {
+  overflow: hidden;
+}
+
+.answer {
+  padding: 0 24px 20px 24px;
+  color: $text-muted;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  font-weight: $weight-medium;
+}
+
