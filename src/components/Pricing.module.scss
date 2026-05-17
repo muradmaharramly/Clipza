@@ -264,6 +264,11 @@
     background: radial-gradient(circle at 0% 0%, rgba($primary, 0.1), transparent 40%);
     pointer-events: none;
   }
+
+  @media (max-width: 768px) {
+    padding: 24px 16px;
+    margin-top: 40px;
+  }
 }
 
 .customInfo {
@@ -299,12 +304,27 @@
   }
 }
 
+.customBtn {
+  @media (max-width: 768px) {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+}
+
 .calculatorBox {
   background: $glass-bg;
   border: $border-thin;
   border-radius: 20px;
   padding: 32px;
   box-shadow: $card-shadow;
+
+  @media (max-width: 768px) {
+    padding: 0px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
 
   .calcHeader {
     margin-bottom: 24px;

@@ -1,7 +1,7 @@
 @use '../styles/ThemeVariables.scss' as *;
 
 .section {
-  padding: 140px 0;
+  padding: 100px 0;
   position: relative;
   overflow: hidden;
   background: transparent;
@@ -32,7 +32,7 @@
 
 .ringWrapper {
   position: relative;
-  width: 100%;
+  width: 1300px;
   height: 700px;
   display: flex;
   justify-content: center;

@@ -27,7 +27,7 @@ const Marquee = () => {
               <div 
                 key={index} 
                 className={styles.item}
-                style={{ transform: `rotateY(${angle}deg) translateZ(500px)` }}
+                style={{ transform: `rotateY(${angle}deg) translateZ(var(--translate-z, 500px))` }}
               >
                 {logo.icon}
                 <span>{logo.name}</span>

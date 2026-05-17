@@ -27,6 +27,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
 }
 
 .headerLeft {
@@ -34,6 +40,20 @@
   flex-direction: column;
   gap: 20px;
   padding-top: 8px;
+
+  @media (max-width: 768px) {
+    align-items: center;
+    text-align: center;
+    
+    h2 {
+      text-align: center;
+    }
+    
+    p {
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
 }
 
 .badge {
@@ -77,6 +97,11 @@
 .headerRight {
   display: flex;
   justify-content: flex-end;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 // ── Live Card ─────────────────────────────────────────────
@@ -92,6 +117,10 @@
   gap: 14px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   backdrop-filter: blur(12px);
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 }
 
 .liveCardHeader {
@@ -284,7 +313,8 @@
 // ── Draggable Canvas Wrapper ───────────────────────────────
 .flowWrapper {
   position: relative;
-  width: 1300px;
+  width: 100%;
+  max-width: 1300px;
   margin: 0 auto;
   height: clamp(380px, 48vh, 560px);
   overflow: hidden;
@@ -293,6 +323,10 @@
  
 
   &:active { cursor: grabbing; }
+
+  @media (max-width: 768px) {
+    height: 240px;
+  }
 }
 
 // ── Canvas Inner (the actual 1900×620 canvas) ────────────

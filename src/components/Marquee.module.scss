@@ -56,6 +56,11 @@
   width: 240px;
   height: 80px;
   transform-style: preserve-3d;
+
+  @media (max-width: 768px) {
+    width: 120px;
+    height: 40px;
+  }
 }
 
 .track {
@@ -94,6 +99,7 @@
   backdrop-filter: blur(5px);
   box-shadow: 0 10px 40px rgba(0,0,0,0.4);
   transition: $transition-fast;
+  --translate-z: 500px;
   
   // Make it pop a bit on hover even in 3D space
   &:hover {
@@ -104,6 +110,19 @@
   svg {
     font-size: 1.8rem;
     color: $primary;
+  }
+
+  @media (max-width: 768px) {
+    --translate-z: 240px;
+    width: 120px;
+    height: 40px;
+    font-size: 0.72rem;
+    gap: 8px;
+    border-radius: 8px;
+
+    svg {
+      font-size: 1.1rem;
+    }
   }
 }
 
