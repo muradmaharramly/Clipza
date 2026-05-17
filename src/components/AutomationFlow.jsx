@@ -124,7 +124,7 @@ export default function AutomationFlow() {
       const rect = el.getBoundingClientRect();
       const mx = e.clientX - rect.left;
       const my = e.clientY - rect.top;
-      const factor = e.deltaY < 0 ? 1.015 : 0.985;
+      const factor = e.deltaY < 0 ? 1.008 : 0.992;
       const oldS = transformRef.current.scale;
       const newS = Math.min(Math.max(oldS * factor, 0.15), 3);
       transformRef.current.x = mx - (mx - transformRef.current.x) * (newS / oldS);
@@ -167,7 +167,7 @@ export default function AutomationFlow() {
     setActiveEdges([]);  setSuccessEdges([]);
     setTextInput('');
     setStatusText('Extracting data from URL...');
-    await typeText('https://en.wikipedia.org/wiki/Artificial_intelligence', setTextInput);
+    await typeText('https://youtu.be/MjKP4ozSn8I?si=OOJbcAtL_IxP1aWE', setTextInput);
     await new Promise(r => setTimeout(r, 400));
 
     for (const step of STEPS) {

@@ -81,7 +81,7 @@
 
 // ── Live Card ─────────────────────────────────────────────
 .liveCard {
-  background: rgba(255,255,255,0.02);
+  background: transparent;
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: $radius-card;
   padding: 20px;
@@ -95,7 +95,6 @@
 }
 
 .liveCardHeader {
-  display: flex;
   align-items: center;
   gap: 10px;
   font-size: 0.75rem;
@@ -432,9 +431,9 @@
   button {
     width: 32px; height: 32px;
     border-radius: 8px !important;
-    background: rgba(255,255,255,0.07) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
-    color: #fff; font-size: 0.9rem;
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #fff; font-size: 1rem;
     cursor: pointer;
     display: flex !important;
     align-items: center !important;
@@ -442,10 +441,10 @@
     padding: 0 !important;
     gap: 0 !important;
     transition: background 0.2s;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(10px);
     box-shadow: none !important;
     &:hover {
-      background: rgba(255,255,255,0.14) !important;
+      background: rgba(255, 255, 255, 0.06) !important;
       transform: none !important;
       .btn-icon-wrapper { transform: none !important; }
     }
@@ -509,5 +508,40 @@
     .anchorLeft, .anchorRight {
       background: rgba(0, 0, 0, 0.15);
     }
+  }
+
+  .liveCard {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
+  }
+
+  .terminalOutput {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .stepItem {
+    color: rgba(0, 0, 0, 0.3);
+    &.stepDone { color: rgba(0, 0, 0, 0.6); }
+    &.stepActive { color: #000; }
+  }
+
+  .inlineSuccess h4 {
+    color: #000;
+  }
+
+  .platform {
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .successSubtext {
+    color: #64748b; // A nice slate gray for light mode
+  }
+
+  .statusPill {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
   }
 }

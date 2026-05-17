@@ -1,13 +1,13 @@
 :root {
   --primary: #FF0000; 
   --accent: #CC0000;  
-  --bg-dark: #0a0a0a; 
-  --text-main: #f9fafb;
-  --text-muted: #9ca3af;
-  --glass-bg: rgba(15, 15, 15, 0.4);
+  --bg-dark: #000000; 
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.5);
+  --glass-bg: rgba(0, 0, 0, 0.4);
   --glass-border: rgba(255, 255, 255, 0.05);
   --glass-border-hover: rgba(255, 255, 255, 0.15);
-  --btn-bg: #1a1a1a;
+  --btn-bg: #000000;
   --surface-grad-start: rgba(255, 255, 255, 0.05);
   --btn-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.6);
@@ -55,7 +55,7 @@ $glow-primary: 0 0 20px rgba(255, 0, 0, 0.2);
 
 // Gradients
 $primary-grad: linear-gradient(135deg, $primary 0%, $accent 100%);
-$secondary-grad: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+$secondary-grad: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.3) 100%);
 $surface-grad: linear-gradient(180deg, var(--surface-grad-start) 0%, transparent 100%);
 
 // Borders & Radius - Tactile Pill (Ref 1 & 2)

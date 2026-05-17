@@ -6,32 +6,32 @@ import styles from './Bento.module.scss';
 const Bento = () => {
   const features = [
     {
-      title: "AI Scripting",
-      desc: "Viral scripts generated in seconds.",
+      title: "AI Scripting Engine",
+      desc: "Generate highly engaging, viral scripts tailored to your specific niche in seconds. Our AI analyzes top-performing content trends to ensure maximum viewer retention.",
       icon: <FiCpu />,
       size: "card1"
     },
     {
-      title: "ElevenLabs Voice",
-      desc: "Ultra-realistic AI audio.",
+      title: "ElevenLabs Integration",
+      desc: "Use ultra-realistic AI voiceovers. Deliver emotion and perfect pacing that keeps your audience completely hooked.",
       icon: <FiZap />,
       size: "card2"
     },
     {
-      title: "Auto-Edit",
-      desc: "Instant visual syncing.",
+      title: "Auto-Sync Editing",
+      desc: "Instantly match visuals, transitions, and B-roll to the rhythm of your audio. No manual timeline tweaking required.",
       icon: <FiVideo />,
       size: "card3"
     },
     {
       title: "Premium Templates",
-      desc: "Skins for every genre.",
+      desc: "Apply high-converting aesthetics instantly. From minimalist tech to bold storytelling, use skins designed for every genre.",
       icon: <FiLayout />,
       size: "card4"
     },
     {
-      title: "Niche Analysis",
-      desc: "Find your winning angle.",
+      title: "Algorithmic Analysis",
+      desc: "Uncover unsaturated topics before they trend. Analyze competitor tags to find your winning angle on YouTube and TikTok.",
       icon: <FiTrendingUp />,
       size: "card5"
     }

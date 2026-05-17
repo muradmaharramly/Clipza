@@ -467,3 +467,16 @@
     width: 100%;
   }
 }
+
+// Light mode overrides
+[data-theme="light"] {
+  .toggle {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .toggleBall {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+}

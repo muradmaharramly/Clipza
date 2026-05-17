@@ -1,0 +1,147 @@
+@use '../styles/ThemeVariables.scss' as *;
+
+.section {
+  padding: 140px 0;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  margin-bottom: -200px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle at center, rgba($primary, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 700px;
+  position: relative;
+}
+
+.ringWrapper {
+  position: relative;
+  width: 100%;
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mask-image: linear-gradient(to bottom, black 20%, transparent 75%);
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 75%);
+}
+
+.ring {
+  position: absolute;
+  top: 500px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  animation: spin 60s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.toolCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  background: transparent;
+  backdrop-filter: $liquid-glass;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: $transition-fast;
+  cursor: pointer;
+  transform: var(--base-transform);
+
+  &:hover {
+    transform: var(--base-transform) scale(1.1) !important;
+    
+    border-color: rgba($primary, 0.3);
+    color: $primary;
+    
+    .icon {
+      color: $primary;
+    }
+  }
+
+  .icon {
+    font-size: 2.2rem;
+    color: $text-main;
+    transition: $transition-fast;
+  }
+
+  .name {
+    font-size: 0.75rem;
+    font-weight: $weight-bold;
+    color: $text-muted;
+  }
+}
+
+.centerContent {
+  position: absolute;
+  top: 500px;
+  left: 50%;
+  transform: translate(-50%, -70%); // shifted slightly up visually
+  text-align: center;
+  max-width: 400px;
+  z-index: 2;
+  pointer-events: none; // let clicks pass through to ring if needed, though ring is larger
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    margin-bottom: 16px;
+    font-weight: $weight-extra;
+    color: transparent;
+    background: $primary-grad;
+    background-clip: text;
+    -webkit-background-clip: text;
+    letter-spacing: -0.04em;
+  }
+
+  p {
+    font-size: 1.05rem;
+    color: $text-muted;
+    line-height: 1.6;
+  }
+}
+
+// Light mode overrides
+[data-theme="light"] {
+  .toolCard {
+    background: rgba(255,255,255,0.8);
+    border-color: rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    
+    .icon { color: #333; }
+    
+    &:hover {
+      background: #fff;
+    }
+  }
+}

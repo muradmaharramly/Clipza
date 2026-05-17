@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import Bento from './components/Bento';
 import AutomationFlow from './components/AutomationFlow';
 import Marquee from './components/Marquee';
+import ToolsRing from './components/ToolsRing';
 import Pricing from './components/Pricing';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
@@ -17,6 +18,7 @@ function App() {
       <Marquee />
       <Bento />
       <AutomationFlow />
+      <ToolsRing />
       <Pricing />
       <FAQ />
       <Footer />

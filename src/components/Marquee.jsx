@@ -12,15 +12,29 @@ const Marquee = () => {
     { name: "ElevenLabs", icon: <FiLayers /> },
   ];
 
+  const items = [...logos, ...logos]; // 12 items to form a complete ring
+
   return (
     <div className={styles.marquee}>
-      <div className={styles.track}>
-        {[...logos, ...logos, ...logos].map((logo, index) => (
-          <div key={index} className={styles.item}>
-            {logo.icon}
-            <span>{logo.name}</span>
-          </div>
-        ))}
+      <div className={styles.titleWrapper}>
+        <p>Companies we collaborate with</p>
+      </div>
+      <div className={styles.scene}>
+        <div className={styles.track}>
+          {items.map((logo, index) => {
+            const angle = index * (360 / items.length);
+            return (
+              <div 
+                key={index} 
+                className={styles.item}
+                style={{ transform: `rotateY(${angle}deg) translateZ(500px)` }}
+              >
+                {logo.icon}
+                <span>{logo.name}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

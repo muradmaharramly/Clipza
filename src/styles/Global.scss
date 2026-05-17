@@ -85,7 +85,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $bg-dark;
+    color: #000;
     font-size: 1rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     transition: $transition-fast;
@@ -148,12 +148,11 @@ button {
   &:not([class*="primary"]):not([class*="Primary"]):not([class*="Started"]) {
     &:hover {
       .btn-icon-wrapper {
-        // Same colors (White/Gray), shifted angle, darkened via color-mix
         background: linear-gradient(225deg, 
-          color-mix(in srgb, #fff, black 10%) 0%, 
-          color-mix(in srgb, #a1a1aa, black 10%) 100%
+          color-mix(in srgb, #ffffff, black 10%) 0%, 
+          color-mix(in srgb, rgba(255, 255, 255, 0.3), black 10%) 100%
         );
-        color: $bg-dark;
+        color: #000;
       }
     }
   }
