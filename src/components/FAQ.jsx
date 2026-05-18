@@ -123,7 +123,6 @@ const FAQ = () => {
     ]
   ];
 
-  const [promptIndex, setPromptIndex] = useState(0);
   const [faqIndex, setFaqIndex] = useState(0);
   const [transmitKey, setTransmitKey] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -133,8 +132,7 @@ const FAQ = () => {
     if (isHovered) return;
 
     const interval = setInterval(() => {
-      setPromptIndex((prev) => (prev + 1) % 2);
-      setTransmitKey((prev) => prev + 1);
+      setTransmitKey(prev => prev + 1);
       setIsLoading(true);
 
       setTimeout(() => {
@@ -149,8 +147,7 @@ const FAQ = () => {
 
   const handleManualTrigger = () => {
     if (isLoading) return;
-    setPromptIndex((prev) => (prev + 1) % 2);
-    setTransmitKey((prev) => prev + 1);
+    setTransmitKey(prev => prev + 1);
     setIsLoading(true);
 
     setTimeout(() => {
@@ -162,9 +159,6 @@ const FAQ = () => {
   const item1 = faqGroups[0][faqIndex];
   const item2 = faqGroups[1][faqIndex];
   const item3 = faqGroups[2][faqIndex];
-
-  // Prompt shows the upcoming question for slot 1
-  const upcomingQuestion = faqGroups[0][promptIndex].question;
 
   return (
     <section className={styles.faqSection} id="faq">
@@ -181,22 +175,14 @@ const FAQ = () => {
             <h2>Questions?</h2>
             <p>Everything you need to know about Clipza. Can't find the answer? Reach out to us.</p>
             
-            {/* Original Premium Glassmorphic Conic Border Prompt Container */}
+            {/* Premium Input Capsule with Static Placeholder */}
             <div className={styles.promptBox}>
               <div className={styles.promptInner}>
-                <div className={styles.promptText}>
-                  <AnimatePresence mode="wait">
-                    <motion.span
-                      key={promptIndex}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {upcomingQuestion}
-                    </motion.span>
-                  </AnimatePresence>
-                </div>
+                <input 
+                  type="text" 
+                  placeholder="Enter your question..." 
+                  className={styles.promptInput}
+                />
                 <div 
                   className={styles.sparkle} 
                   onClick={handleManualTrigger}
