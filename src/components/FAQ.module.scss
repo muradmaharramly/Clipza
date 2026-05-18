@@ -37,6 +37,7 @@
     font-size: clamp(3.5rem, 6vw, 4.5rem);
     margin-bottom: 20px;
     letter-spacing: -0.07em;
+    color: $primary;
   }
 
   p {
@@ -53,6 +54,7 @@
   max-width: 420px;
   background: $bg-dark;
   border-radius: $radius-pill;
+  border: $border-thin;
   padding: 2px;
   position: relative;
   overflow: hidden;
@@ -125,7 +127,7 @@
   background: $glass-bg;
   backdrop-filter: $liquid-glass;
   border: $border-thin;
-  border-radius: 16px; // Reduced from $radius-card
+  border-radius: 16px; 
   cursor: pointer;
   overflow: hidden;
   transition: $transition-soft;
@@ -145,12 +147,12 @@
   }
 
   &.active {
-    border-color: rgba($primary, 0.4);
+    border-color: rgba(255, 255, 255, 0.08);
 
     .iconCircle {
-      background: $secondary-grad;
-      color: #111;
-      border-color: transparent;
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: #10B981;
     }
 
     &:hover {
@@ -185,6 +187,7 @@
     font-weight: $weight-bold;
     color: $text-main;
     letter-spacing: -0.03em;
+    margin: 0;
   }
 }
 
@@ -196,16 +199,21 @@
 .iconCircle {
   width: 36px;
   height: 36px;
-  background: $secondary-grad;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $bg-dark;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 1rem;
   transition: $transition-fast;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+  svg {
+    fill: currentColor !important;
+    color: currentColor !important;
+  }
 }
 
 .answerWrapper {
@@ -218,6 +226,10 @@
   line-height: 1.6;
   font-size: 0.95rem;
   font-weight: $weight-medium;
+
+  p {
+    margin: 0;
+  }
 }
 
 .connectionWrapper {
@@ -250,16 +262,10 @@
 .animatedLight {
   fill: none;
   stroke: #10B981;
-  stroke-width: 3.5;
+  stroke-width: 2;
+  stroke-dasharray: 6, 8;
   stroke-linecap: round;
-  stroke-dasharray: 15 110;
-  animation: flowLight 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   filter: drop-shadow(0 0 8px #10B981);
-}
-
-@keyframes flowLight {
-  0% { stroke-dashoffset: 15; }
-  100% { stroke-dashoffset: -115; }
 }
 
 .list {
@@ -275,13 +281,101 @@
   width: 100%;
 }
 
+// Skeleton Loader Styling
+.skeletonQuestion {
+  width: 40%;
+  height: 16px;
+  border-radius: 6px;
+  display: inline-block;
+  vertical-align: middle;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.06) 25%, 
+    rgba(255, 255, 255, 0.15) 50%, 
+    rgba(255, 255, 255, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s forwards linear 1;
+}
+
+.skeletonAnswer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+
+
+.skeletonLineLong {
+  width: 85%;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.05) 25%, 
+    rgba(255, 255, 255, 0.12) 50%, 
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s forwards linear 1;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 // Light mode overrides
 [data-theme="light"] {
   .dashedLine {
     stroke: rgba(0, 0, 0, 0.15);
   }
 
-  .item .iconCircle {
-    color: #000;
+  .item {
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    
+    &.active {
+      border-color: rgba(0, 0, 0, 0.12) !important;
+    }
+  }
+
+  .iconCircle {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .item.active {
+    .iconCircle {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #059669;
+    }
+  }
+
+  .question h3 {
+    color: #111111 !important;
+  }
+
+  .answer {
+    color: #444444 !important;
+  }
+
+  .skeletonQuestion {
+    background: linear-gradient(90deg, 
+      rgba(0, 0, 0, 0.05) 25%, 
+      rgba(0, 0, 0, 0.12) 50%, 
+      rgba(0, 0, 0, 0.05) 75%
+    ) !important;
+    background-size: 200% 100% !important;
+  }
+
+  .skeletonLineShort, .skeletonLineLong {
+    background: linear-gradient(90deg, 
+      rgba(0, 0, 0, 0.04) 25%, 
+      rgba(0, 0, 0, 0.09) 50%, 
+      rgba(0, 0, 0, 0.04) 75%
+    ) !important;
+    background-size: 200% 100% !important;
   }
 }
