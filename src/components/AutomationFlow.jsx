@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AutomationFlow.module.scss';
 import {
   FiType, FiFileText, FiLayers, FiVideo, FiMic, FiMusic, FiFilm,
   FiHash, FiSearch, FiImage, FiPlay, FiCheckCircle, FiArrowRight,
-  FiClock, FiZap, FiShield, FiSend, FiPlus, FiMinus, FiMaximize
+  FiClock, FiZap, FiShield, FiSend, FiPlus, FiMinus, FiMaximize,
+  FiCpu, FiCheck
 } from 'react-icons/fi';
 
 const CANVAS_W   = 1900;
@@ -64,15 +65,87 @@ const getPathD = (from, to, curved) => {
 };
 
 const STEPS = [
-  { nodes: ['trigger'],                                edges: [],                              text: 'Initializing workflow',      step: 1 },
-  { nodes: ['script'],                                 edges: ['e1'],                          text: 'AI drafting script',         step: 2 },
-  { nodes: ['scene'],                                  edges: ['e2'],                          text: 'Planning scenes',            step: 3 },
-  { nodes: ['visual', 'voice', 'sfxtrack'],            edges: ['e3', 'e4', 'e5'],             text: 'Splitting tracks',           step: 4 },
-  { nodes: ['aiimg', 'broll', 'tts', 'music', 'sfx'], edges: ['e6','e7','e8','e9','e10'],    text: 'Running AI modules',         step: 5 },
-  { nodes: ['compiler'],                               edges: ['e11','e12','e13','e14','e15'],text: 'Compiling assets',           step: 6 },
-  { nodes: ['captions', 'meta', 'thumb'],              edges: ['e16', 'e17', 'e18'],          text: 'Generating metadata',        step: 7 },
-  { nodes: ['checkmedia'],                             edges: ['e19', 'e20', 'e21'],          text: 'Running quality checks',     step: 8 },
-  { nodes: ['publish'],                                edges: ['e22'],                         text: 'Sending to distributor',     step: 9 },
+  {
+    nodes: ['trigger'],
+    edges: [],
+    text: 'Initializing workflow',
+    title: 'Initializing Workflow',
+    description: 'URL trigger detected, fetching data...',
+    icon: <FiZap />,
+    step: 1
+  },
+  {
+    nodes: ['script'],
+    edges: ['e1'],
+    text: 'AI drafting script',
+    title: 'AI Drafting Script',
+    description: 'Writing voiceover and pacing...',
+    icon: <FiFileText />,
+    step: 2
+  },
+  {
+    nodes: ['scene'],
+    edges: ['e2'],
+    text: 'Planning scenes',
+    title: 'Planning Scenes',
+    description: 'Mapping visuals to script segments...',
+    icon: <FiLayers />,
+    step: 3
+  },
+  {
+    nodes: ['visual', 'voice', 'sfxtrack'],
+    edges: ['e3', 'e4', 'e5'],
+    text: 'Splitting tracks',
+    title: 'Splitting Tracks',
+    description: 'Creating parallel rendering lanes...',
+    icon: <FiVideo />,
+    step: 4
+  },
+  {
+    nodes: ['aiimg', 'broll', 'tts', 'music', 'sfx'],
+    edges: ['e6','e7','e8','e9','e10'],
+    text: 'Running AI modules',
+    title: 'Running AI Modules',
+    description: 'Generating images, audio, voice...',
+    icon: <FiCpu />,
+    step: 5
+  },
+  {
+    nodes: ['compiler'],
+    edges: ['e11','e12','e13','e14','e15'],
+    text: 'Compiling assets',
+    title: 'Compiling Assets',
+    description: 'FFmpeg merging video layers...',
+    icon: <FiFilm />,
+    step: 6
+  },
+  {
+    nodes: ['captions', 'meta', 'thumb'],
+    edges: ['e16', 'e17', 'e18'],
+    text: 'Generating metadata',
+    title: 'Generating Metadata',
+    description: 'Whisper captions & Stable Diffusion...',
+    icon: <FiHash />,
+    step: 7
+  },
+  {
+    nodes: ['checkmedia'],
+    edges: ['e19', 'e20', 'e21'],
+    text: 'Running quality checks',
+    title: 'Running Quality Checks',
+    description: 'Applying AI-powered safety filters...',
+    icon: <FiShield />,
+    step: 8
+  },
+  {
+    nodes: ['publish'],
+    edges: ['e22'],
+    text: 'Sending to distributor',
+    title: 'Sending to Distributor',
+    description: 'Pushing to TikTok, YouTube, Reels...',
+    icon: <FiSend />,
+    step: 9
+  },
 ];
 
 export default function AutomationFlow() {
@@ -85,6 +158,22 @@ export default function AutomationFlow() {
   const [textInput, setTextInput]     = useState('');
   const [statusText, setStatusText]   = useState('Waiting for trigger...');
   const [isRunning, setIsRunning]     = useState(false);
+  const activeIndex = currentStep - 1;
+  const startIdx = Math.max(0, Math.min(STEPS.length - 4, activeIndex - 1));
+
+  const getScrollOffset = (targetIdx) => {
+    let offset = 0;
+    for (let i = 0; i < targetIdx; i++) {
+      const stepNum = STEPS[i].step;
+      const done = currentStep > stepNum;
+      const lineHeight = !isRunning ? 18 : done ? 12 : 36;
+      offset += 66 + lineHeight; 
+    }
+    return offset;
+  };
+
+  const scrollOffset = isRunning ? getScrollOffset(startIdx) : 0;
+
 
   // Pan/Zoom
   const wrapperRef      = useRef(null);
@@ -191,12 +280,6 @@ export default function AutomationFlow() {
     runRef.current = false;
   };
 
-  useEffect(() => {
-    let t;
-    if (phase === 2) t = setTimeout(() => handlePublish(), 4000);
-    return () => clearTimeout(t);
-  }, [phase]);
-
   const handlePublish = async () => {
     setPhase(3);
     await new Promise(r => setTimeout(r, 4500));
@@ -206,6 +289,12 @@ export default function AutomationFlow() {
     setTextInput(''); setStatusText('Waiting for trigger...');
     runRef.current = false; setIsRunning(false);
   };
+
+  useEffect(() => {
+    let t;
+    if (phase === 2) t = setTimeout(() => handlePublish(), 4000);
+    return () => clearTimeout(t);
+  }, [phase]);
 
   return (
     <section className={styles.flowSection}>
@@ -310,17 +399,57 @@ export default function AutomationFlow() {
                     )}
                   </div>
 
-                  <div className={styles.stepsList}>
-                    {STEPS.map(s => {
-                      const done   = currentStep > s.step;
-                      const active = currentStep === s.step && isRunning;
-                      return (
-                        <div key={s.step} className={`${styles.stepItem} ${done ? styles.stepDone : ''} ${active ? styles.stepActive : ''}`}>
-                          <div className={styles.stepDot}></div>
-                          <span>{s.text}</span>
-                        </div>
-                      );
-                    })}
+                  <div className={styles.stepsViewport}>
+                    <motion.div
+                      className={styles.stepsScrollContainer}
+                      animate={{ y: -scrollOffset }}
+                      transition={{ type: 'spring', damping: 22, stiffness: 100 }}
+                    >
+                      {STEPS.map((s, idx) => {
+                        const done   = currentStep > s.step;
+                        const active = currentStep === s.step && isRunning;
+                        const pending = currentStep < s.step || (!isRunning && currentStep === 0);
+                        
+                        const lineHeight = !isRunning ? 18 : done ? 12 : 36;
+                        
+                        return (
+                          <div
+                            key={s.step}
+                            className={`${styles.stepWrapper} ${done ? styles.stepDone : ''} ${active ? styles.stepActive : ''} ${pending ? styles.stepPending : ''}`}
+                          >
+                            <div className={styles.stepFlex}>
+                              <div className={styles.stepLeft}>
+                                <div className={styles.stepCircle}>
+                                  {done ? <FiCheck className={styles.checkIcon} /> : s.icon}
+                                </div>
+                                {idx < STEPS.length - 1 && (
+                                  <motion.div
+                                    className={styles.stepConnector}
+                                    animate={{ height: lineHeight }}
+                                    transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+                                  />
+                                )}
+                              </div>
+                              
+                              <div className={styles.stepContent}>
+                                <h4 className={styles.stepTitle}>{s.title}</h4>
+                                <p className={styles.stepDescription}>{s.description}</p>
+                              </div>
+                              
+                              <div className={styles.stepRight}>
+                                {active ? (
+                                  <span className={styles.activePulse}>In Progress</span>
+                                ) : done ? (
+                                  <span className={styles.doneLabel}>Done</span>
+                                ) : (
+                                  <span className={styles.pendingLabel}>Pending</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </motion.div>
                   </div>
 
                   <div className={styles.statusPill}>
