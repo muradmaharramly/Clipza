@@ -116,18 +116,7 @@ const Pricing = () => {
           viewport={{ once: true }}
           transition={springConfig}
         >
-          <div className={styles.customInfo}>
-            <h3>Custom Plan</h3>
-            <p>Need more power? Tailor our services exactly to your agency or production house needs.</p>
-            <ul className={styles.customFeatures}>
-              <li><FiCheck /> Dedicated Account Manager</li>
-              <li><FiCheck /> Custom API Rate Limits</li>
-              <li><FiCheck /> White-label Reporting</li>
-            </ul>
-            <MagneticButton className={styles.customBtn} icon={<FiArrowRight />}>
-              Contact Sales
-            </MagneticButton>
-          </div>
+          
 
           <div className={styles.calculatorBox}>
             <div className={styles.calcHeader}>
@@ -216,6 +205,18 @@ const Pricing = () => {
                 </MagneticButton>
               </div>
             </div>
+          </div>
+          <div className={styles.customInfo}>
+            <h3>Custom Plan</h3>
+            <p>Need more power? Tailor our services exactly to your agency or production house needs.</p>
+            <ul className={styles.customFeatures}>
+              <li><FiCheck /> Dedicated Account Manager</li>
+              <li><FiCheck /> Custom API Rate Limits</li>
+              <li><FiCheck /> White-label Reporting</li>
+            </ul>
+            <MagneticButton className={styles.customBtn} icon={<FiArrowRight />}>
+              Contact Sales
+            </MagneticButton>
           </div>
         </motion.div>
       </div>

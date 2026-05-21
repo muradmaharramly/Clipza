@@ -337,7 +337,7 @@ export default function AutomationFlow() {
 
         {/* Left: title + CTA */}
         <div className={styles.headerLeft}>
-          <div className={styles.badge}><FiZap /><span>Fully Automated</span></div>
+          <div className={styles.badge}><span>Fully Automated</span></div>
           <h2>Intelligent Automation<br />Workflow</h2>
           <p>
             Drop a URL and watch Clipza orchestrate 17 AI modules in parallel —
