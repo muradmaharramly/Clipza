@@ -7,6 +7,7 @@ import {
   FiClock, FiZap, FiShield, FiSend, FiPlus, FiMinus, FiMaximize,
   FiCpu, FiCheck
 } from 'react-icons/fi';
+import { FaYoutube, FaTiktok, FaInstagram } from 'react-icons/fa';
 
 const CANVAS_W   = 1900;
 const CANVAS_H   = 620;
@@ -304,8 +305,9 @@ export default function AutomationFlow() {
       setActiveNodes([]);
       setSuccessNodes(prev => [...prev, ...step.nodes]);
     }
+    setCurrentStep(STEPS.length + 1);
     setStatusText('Workflow completed!');
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 800));
     setPhase(2);
     setIsRunning(false);
     runRef.current = false;
@@ -408,12 +410,21 @@ export default function AutomationFlow() {
                   <motion.div className={styles.checkCircle} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.15, type: 'spring' }}>
                     <FiCheckCircle />
                   </motion.div>
-                  <h4>Video Published! 🎉</h4>
+                  <h4>Video Published!</h4>
                   <p className={styles.successSubtext}>Live across all platforms.</p>
                   <div className={styles.platformLinks}>
-                    <div className={styles.platform}><div className={styles.platformDot} style={{ background: '#ff0000' }}></div><span>YouTube Shorts</span></div>
-                    <div className={styles.platform}><div className={styles.platformDot} style={{ background: '#8B5CF6' }}></div><span>TikTok</span></div>
-                    <div className={styles.platform}><div className={styles.platformDot} style={{ background: '#E1306C' }}></div><span>Instagram Reels</span></div>
+                    <div className={styles.platform}>
+                      <FaYoutube className={`${styles.platformIcon} ${styles.youtube}`} />
+                      <span>YouTube Shorts</span>
+                    </div>
+                    <div className={styles.platform}>
+                      <FaTiktok className={`${styles.platformIcon} ${styles.tiktok}`} />
+                      <span>TikTok</span>
+                    </div>
+                    <div className={styles.platform}>
+                      <FaInstagram className={`${styles.platformIcon} ${styles.instagram}`} />
+                      <span>Instagram Reels</span>
+                    </div>
                   </div>
                   <div className={styles.progressBarWrapper}>
                     <div className={styles.progressText}>Resetting workflow...</div>
