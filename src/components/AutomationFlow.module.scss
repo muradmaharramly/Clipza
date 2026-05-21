@@ -109,17 +109,20 @@
   background: transparent;
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: $radius-card;
-  padding: 20px;
+  padding: 24px;
   width: 100%;
   max-width: 480px;
+  height: 480px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   backdrop-filter: blur(12px);
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     max-width: 100%;
+    height: auto;
   }
 }
 
@@ -382,12 +385,15 @@
 .inlinePreview {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
   gap: 12px;
+  padding: 4px 0;
 }
 
 .inlineThumbnail {
   width: 100%;
-  height: 130px;
+  height: 175px;
   border-radius: 12px;
   background: linear-gradient(135deg, color-mix(in srgb, $primary, black 20%), color-mix(in srgb, $accent, black 50%));
   display: flex;
@@ -438,8 +444,9 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 12px;
-  padding: 8px 0;
+  height: 100%;
+  justify-content: space-between;
+  padding: 12px 0;
 
   h4 { font-size: 1rem; color: #fff; margin: 0; }
 }

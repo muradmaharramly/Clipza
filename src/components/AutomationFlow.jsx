@@ -159,20 +159,51 @@ export default function AutomationFlow() {
   const [statusText, setStatusText]   = useState('Waiting for trigger...');
   const [isRunning, setIsRunning]     = useState(false);
   const activeIndex = currentStep - 1;
-  const startIdx = Math.max(0, Math.min(STEPS.length - 4, activeIndex - 1));
+  const getStepHeight = (idx) => {
+    if (idx < 0 || idx >= STEPS.length) return 0;
+    const s = STEPS[idx];
+    const done = currentStep > s.step;
+    const lineHeight = !isRunning ? 18 : done ? 12 : 36;
+    if (idx === STEPS.length - 1) return 38;
+    return 38 + lineHeight;
+  };
 
-  const getScrollOffset = (targetIdx) => {
+  const getOffsetToTop = (targetIdx) => {
     let offset = 0;
     for (let i = 0; i < targetIdx; i++) {
-      const stepNum = STEPS[i].step;
-      const done = currentStep > stepNum;
-      const lineHeight = !isRunning ? 18 : done ? 12 : 36;
-      offset += 66 + lineHeight; 
+      offset += getStepHeight(i);
     }
     return offset;
   };
 
-  const scrollOffset = isRunning ? getScrollOffset(startIdx) : 0;
+  const getFlexibleScroll = () => {
+    if (!isRunning) return 0;
+    
+    const safeActiveIndex = Math.max(0, activeIndex);
+    const targetIdx = Math.max(0, safeActiveIndex - 1);
+    const maxTargetIdx = Math.max(0, STEPS.length - 6);
+    
+    const clampedTarget = Math.min(maxTargetIdx, targetIdx);
+    let offset = getOffsetToTop(clampedTarget);
+    
+    if (safeActiveIndex > maxTargetIdx + 1) {
+       let shrinkage = 0;
+       for (let i = maxTargetIdx + 1; i < safeActiveIndex; i++) {
+         shrinkage += 24; 
+       }
+       offset -= shrinkage;
+    }
+    
+    const activeTop = getOffsetToTop(safeActiveIndex);
+    const activeBottom = activeTop + getStepHeight(safeActiveIndex);
+    
+    const minOffset = Math.max(0, activeBottom - 280); 
+    const maxOffset = Math.max(0, activeTop - 20); 
+    
+    return Math.max(minOffset, Math.min(maxOffset, offset));
+  };
+
+  const scrollOffset = getFlexibleScroll();
 
 
   // Pan/Zoom
@@ -325,9 +356,11 @@ export default function AutomationFlow() {
         {/* Right: live card */}
         <div className={styles.headerRight}>
           <div className={styles.liveCard}>
-            <div className={styles.liveCardHeader}>
+             <div className={styles.liveCardHeader}>
               <span className={styles.liveDot}></span>
-              <span>Live Workflow Status</span>
+              <span>
+                {phase === 2 ? 'Generated Video Preview' : phase === 3 ? 'Publishing Status' : 'Live Workflow Status'}
+              </span>
             </div>
 
             <AnimatePresence mode="wait">
