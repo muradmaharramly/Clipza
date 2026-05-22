@@ -34,6 +34,7 @@ export default function CtaSection() {
               </button>
               <button className={`secondaryBtn ${styles.btn}`}>
                 <span className="btn-text">View Examples</span>
+                <div className="btn-icon-wrapper"><FiArrowRight /></div>
               </button>
             </div>
           </div>
