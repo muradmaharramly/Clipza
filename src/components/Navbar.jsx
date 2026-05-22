@@ -4,8 +4,16 @@ import { FiArrowRight, FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
 import styles from './Navbar.module.scss';
 import MagneticButton from './MagneticButton';
 
+const navLinks = [
+  { name: 'Home', href: '#' },
+  { name: 'About', href: '#about' },
+  { name: 'Features', href: '#features' },
+  { name: 'Pricing', href: '#pricing' },
+  { name: 'FAQ', href: '#faq' },
+];
+
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('Home');
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
   useEffect(() => {
@@ -15,17 +23,9 @@ const Navbar = () => {
 
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
-      <div className={styles.container}>
+    <nav className={styles.navbarWrapper}>
+      <div className={styles.pillContainer}>
         <motion.div 
           className={styles.logo}
           initial={{ opacity: 0, x: -20 }}
@@ -34,16 +34,25 @@ const Navbar = () => {
         >
           Clip<span>za</span>
         </motion.div>
+        
         <motion.div 
           className={styles.links}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
         >
-          <a href="#features">Features</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
+          {navLinks.map((link) => (
+            <a 
+              key={link.name}
+              href={link.href}
+              className={activeSection === link.name ? styles.active : ''}
+              onClick={() => setActiveSection(link.name)}
+            >
+              {link.name}
+            </a>
+          ))}
         </motion.div>
+        
         <motion.div
           className={styles.navActions}
           initial={{ opacity: 0, x: 20 }}
