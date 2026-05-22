@@ -9,6 +9,7 @@
   --glass-border-hover: rgba(255, 255, 255, 0.15);
   --btn-bg: #000000;
   --surface-grad-start: rgba(255, 255, 255, 0.05);
+  --primary-low-grad-start: rgba(255, 0, 0, 0.179);
   --btn-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.6);
   --shadow-strong: 0 40px 80px rgba(0, 0, 0, 0.8);
@@ -23,6 +24,7 @@
   --glass-border-hover: rgba(255, 0, 0, 0.3);
   --btn-bg: #f8fafc;
   --surface-grad-start: rgba(15, 23, 42, 0.01);
+  --primary-low-grad-start: rgba(255, 0, 0, 0.179);
   --card-shadow: 0 4px 20px rgba(15, 23, 42, 0.04); 
   --btn-shadow: 0 2px 10px rgba(15, 23, 42, 0.02); 
   --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.05); // Light theme shadow
@@ -57,6 +59,7 @@ $glow-primary: 0 0 20px rgba(255, 0, 0, 0.2);
 $primary-grad: linear-gradient(135deg, $primary 0%, $accent 100%);
 $secondary-grad: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.3) 100%);
 $surface-grad: linear-gradient(180deg, var(--surface-grad-start) 0%, transparent 100%);
+$primary-low-grad: linear-gradient(0deg, var(--primary-low-grad-start) 0%, transparent 40%);
 
 // Borders & Radius - Tactile Pill (Ref 1 & 2)
 $radius-bento: 24px; // More rounded for Ref 4
