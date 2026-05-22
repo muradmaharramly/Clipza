@@ -132,7 +132,9 @@
 }
 
 .liveCardHeader {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   font-size: 0.75rem;
   font-weight: $weight-bold;
@@ -141,12 +143,58 @@
   letter-spacing: 0.08em;
 }
 
+.headerTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.runControls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  button {
+    background: transparent;
+    border: none;
+    color: $text-muted;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 8px !important;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    &:hover:not(:disabled) {
+      color: $text-main;
+      background: rgba(255, 255, 255, 0.1);
+      
+      [data-theme="light"] & {
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+}
+
 .liveDot {
   width: 8px; height: 8px;
   border-radius: 50%;
   background: #10B981;
   box-shadow: 0 0 8px #10B981;
   animation: blink 1.6s infinite;
+
+  &.pausedDot {
+    background: #F59E0B;
+    box-shadow: 0 0 8px #F59E0B;
+    animation: none;
+  }
 }
 
 .terminalOutput {
@@ -225,6 +273,16 @@
     }
     .stepDescription {
       color: rgba(255, 255, 255, 0.75);
+    }
+  }
+
+  &.stepPaused {
+    .stepCircle {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: #F59E0B;
+      color: #F59E0B;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+      animation: none;
     }
   }
 
@@ -350,6 +408,17 @@
   }
 }
 
+.pausedPulse {
+  color: #F59E0B;
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.1);
+  &::before {
+    background: #F59E0B;
+    animation: none;
+  }
+}
+
 .doneLabel {
   font-size: 0.65rem;
   font-weight: $weight-bold;
@@ -396,6 +465,10 @@
   font-weight: $weight-bold;
   font-size: 0.8rem;
   display: block;
+
+  &.pausedText {
+    color: #F59E0B;
+  }
 }
 
 // ── Inline Preview (in liveCard) ─────────────────────────
@@ -654,6 +727,13 @@
     .icon { background: rgba(16,185,129,0.2); color: #10B981; animation: pulse 1.5s infinite; }
   }
 
+  &.nodePaused {
+    border-color: rgba(245,158,11,0.5);
+    box-shadow: 0 0 20px rgba(245,158,11,0.15);
+    .anchorLeft, .anchorRight { background: #F59E0B; box-shadow: 0 0 10px #F59E0B; }
+    .icon { background: rgba(245,158,11,0.2); color: #F59E0B; animation: none; }
+  }
+
   &.success {
     border-color: #10B981;
     box-shadow: 0 0 18px rgba(16,185,129,0.2);
@@ -711,6 +791,17 @@
       transform: none !important;
       .btn-icon-wrapper { transform: none !important; }
     }
+  }
+}
+
+.zoomDivider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.2);
+  margin: auto 4px;
+  
+  [data-theme="light"] & {
+    background: rgba(0,0,0,0.15);
   }
 }
 

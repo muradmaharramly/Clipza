@@ -5,7 +5,7 @@ import {
   FiType, FiFileText, FiLayers, FiVideo, FiMic, FiMusic, FiFilm,
   FiHash, FiSearch, FiImage, FiPlay, FiCheckCircle, FiArrowRight,
   FiClock, FiZap, FiShield, FiSend, FiPlus, FiMinus, FiMaximize,
-  FiCpu, FiCheck
+  FiCpu, FiCheck, FiPause, FiXSquare, FiRefreshCw
 } from 'react-icons/fi';
 import { FaYoutube, FaTiktok, FaInstagram } from 'react-icons/fa';
 
@@ -159,6 +159,8 @@ export default function AutomationFlow() {
   const [textInput, setTextInput]     = useState('');
   const [statusText, setStatusText]   = useState('Waiting for trigger...');
   const [isRunning, setIsRunning]     = useState(false);
+  const [isPaused, setIsPaused]       = useState(false);
+  
   const activeIndex = currentStep - 1;
   const getStepHeight = (idx) => {
     if (idx < 0 || idx >= STEPS.length) return 0;
@@ -214,6 +216,7 @@ export default function AutomationFlow() {
   const isDragging      = useRef(false);
   const lastMouse       = useRef({ x: 0, y: 0 });
   const runRef          = useRef(false);
+  const pauseRef        = useRef(false);
 
   const applyTransform = () => {
     if (!canvasInnerRef.current) return;
@@ -269,45 +272,106 @@ export default function AutomationFlow() {
   const zoomIn    = () => { transformRef.current.scale = Math.min(transformRef.current.scale * 1.2, 3); applyTransform(); };
   const zoomOut   = () => { transformRef.current.scale = Math.max(transformRef.current.scale * 0.8, 0.15); applyTransform(); };
 
-  // Sequence
+  // Sequence controls
+  const checkPause = async () => {
+    while (pauseRef.current) {
+      if (!runRef.current) return false;
+      await new Promise(r => setTimeout(r, 100));
+    }
+    return runRef.current;
+  };
+
   const typeText = async (text, setter, delay = 18) => {
     setter('');
     for (let i = 0; i <= text.length; i++) {
+      if (!await checkPause()) return;
       setter(text.slice(0, i));
       await new Promise(r => setTimeout(r, delay));
     }
+  };
+
+  const cancelSequence = () => {
+    runRef.current = false;
+    setIsRunning(false);
+    setIsPaused(false);
+    pauseRef.current = false;
+    setPhase(0);
+    setCurrentStep(0);
+    setActiveNodes([]); setSuccessNodes([]);
+    setActiveEdges([]); setSuccessEdges([]);
+    setTextInput('');
+    setStatusText('Waiting for trigger...');
+  };
+
+  const togglePause = () => {
+    if (!isRunning) return;
+    const newPause = !isPaused;
+    setIsPaused(newPause);
+    pauseRef.current = newPause;
+  };
+
+  const restartSequence = () => {
+    cancelSequence();
+    setTimeout(() => {
+      runSequence();
+    }, 100);
   };
 
   const runSequence = async () => {
     if (runRef.current) return;
     runRef.current = true;
     setIsRunning(true);
+    setIsPaused(false);
+    pauseRef.current = false;
     setPhase(1);
     setCurrentStep(0);
     setActiveNodes([]); setSuccessNodes([]);
     setActiveEdges([]);  setSuccessEdges([]);
     setTextInput('');
     setStatusText('Extracting data from URL...');
+    
     await typeText('https://youtu.be/MjKP4ozSn8I?si=OOJbcAtL_IxP1aWE', setTextInput);
+    if (!await checkPause()) return;
     await new Promise(r => setTimeout(r, 400));
+    if (!await checkPause()) return;
 
     for (const step of STEPS) {
       setStatusText(step.text + '...');
       setCurrentStep(step.step);
       if (step.edges.length) {
         setActiveEdges(step.edges);
-        await new Promise(r => setTimeout(r, 600));
+        let elapsed = 0;
+        while (elapsed < 600) {
+           if (!await checkPause()) return;
+           await new Promise(r => setTimeout(r, 50));
+           elapsed += 50;
+        }
+        if (!runRef.current) return;
         setSuccessEdges(prev => [...prev, ...step.edges]);
         setActiveEdges([]);
       }
       setActiveNodes(step.nodes);
-      await new Promise(r => setTimeout(r, 950));
+      let elapsedNodes = 0;
+      while (elapsedNodes < 950) {
+         if (!await checkPause()) return;
+         await new Promise(r => setTimeout(r, 50));
+         elapsedNodes += 50;
+      }
+      if (!runRef.current) return;
       setActiveNodes([]);
       setSuccessNodes(prev => [...prev, ...step.nodes]);
     }
     setCurrentStep(STEPS.length + 1);
     setStatusText('Workflow completed!');
-    await new Promise(r => setTimeout(r, 800));
+    
+    let elapsedEnd = 0;
+    while (elapsedEnd < 800) {
+        if (!await checkPause()) return;
+        await new Promise(r => setTimeout(r, 50));
+        elapsedEnd += 50;
+    }
+    if (!runRef.current) return;
+    
     setPhase(2);
     setIsRunning(false);
     runRef.current = false;
@@ -315,7 +379,15 @@ export default function AutomationFlow() {
 
   const handlePublish = async () => {
     setPhase(3);
-    await new Promise(r => setTimeout(r, 4500));
+    
+    let elapsedPub = 0;
+    while (elapsedPub < 4500) {
+        if (!await checkPause()) return;
+        await new Promise(r => setTimeout(r, 50));
+        elapsedPub += 50;
+    }
+    if (!runRef.current) return;
+    
     setPhase(0); setCurrentStep(0);
     setActiveNodes([]); setSuccessNodes([]);
     setActiveEdges([]);  setSuccessEdges([]);
@@ -325,9 +397,23 @@ export default function AutomationFlow() {
 
   useEffect(() => {
     let t;
-    if (phase === 2) t = setTimeout(() => handlePublish(), 4000);
+    if (phase === 2 && isRunning) t = setTimeout(() => handlePublish(), 4000);
     return () => clearTimeout(t);
-  }, [phase]);
+  }, [phase, isRunning]);
+
+  const ControlButtons = () => (
+    <div className={styles.runControls}>
+      <button onClick={togglePause} title={isPaused ? "Resume" : "Pause"} disabled={!isRunning && phase === 0}>
+        {isPaused ? <FiPlay /> : <FiPause />}
+      </button>
+      <button onClick={restartSequence} title="Restart" disabled={!isRunning && phase === 0}>
+        <FiRefreshCw />
+      </button>
+      <button onClick={cancelSequence} title="Cancel" disabled={!isRunning && phase === 0}>
+        <FiXSquare />
+      </button>
+    </div>
+  );
 
   return (
     <section className={styles.flowSection} id="workflow">
@@ -349,7 +435,7 @@ export default function AutomationFlow() {
               className={`primaryBtn no-rotate ${styles.seeHowBtn} ${isRunning ? styles.disabled : ''}`}
               onClick={() => { if (!isRunning && phase < 2) runSequence(); }}
             >
-              <span className="btn-text">{isRunning ? 'Running...' : 'See how it works'}</span>
+              <span className="btn-text">{isRunning ? (isPaused ? 'Paused' : 'Running...') : 'See how it works'}</span>
               <div className="btn-icon-wrapper"><FiPlay /></div>
             </button>
           </div>
@@ -359,10 +445,13 @@ export default function AutomationFlow() {
         <div className={styles.headerRight}>
           <div className={styles.liveCard}>
              <div className={styles.liveCardHeader}>
-              <span className={styles.liveDot}></span>
-              <span>
-                {phase === 2 ? 'Generated Video Preview' : phase === 3 ? 'Publishing Status' : 'Live Workflow Status'}
-              </span>
+              <div className={styles.headerTitleRow}>
+                <span className={`${styles.liveDot} ${isPaused ? styles.pausedDot : ''}`}></span>
+                <span>
+                  {phase === 2 ? 'Generated Video Preview' : phase === 3 ? 'Publishing Status' : 'Live Workflow Status'}
+                </span>
+              </div>
+              <ControlButtons />
             </div>
 
             <AnimatePresence mode="wait">
@@ -438,7 +527,7 @@ export default function AutomationFlow() {
                   <div className={styles.terminalOutput}>
                     <span className={styles.terminalPrompt}>$</span>
                     <span className={styles.terminalText}>{textInput || 'waiting for input...'}</span>
-                    {isRunning && (
+                    {isRunning && !isPaused && (
                       <motion.span animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} className={styles.cursor}>|</motion.span>
                     )}
                   </div>
@@ -459,7 +548,7 @@ export default function AutomationFlow() {
                         return (
                           <div
                             key={s.step}
-                            className={`${styles.stepWrapper} ${done ? styles.stepDone : ''} ${active ? styles.stepActive : ''} ${pending ? styles.stepPending : ''}`}
+                            className={`${styles.stepWrapper} ${done ? styles.stepDone : ''} ${active ? styles.stepActive : ''} ${pending ? styles.stepPending : ''} ${active && isPaused ? styles.stepPaused : ''}`}
                           >
                             <div className={styles.stepFlex}>
                               <div className={styles.stepLeft}>
@@ -482,7 +571,7 @@ export default function AutomationFlow() {
                               
                               <div className={styles.stepRight}>
                                 {active ? (
-                                  <span className={styles.activePulse}>In Progress</span>
+                                  <span className={`${styles.activePulse} ${isPaused ? styles.pausedPulse : ''}`}>{isPaused ? 'Paused' : 'In Progress'}</span>
                                 ) : done ? (
                                   <span className={styles.doneLabel}>Done</span>
                                 ) : (
@@ -498,8 +587,8 @@ export default function AutomationFlow() {
 
                   <div className={styles.statusPill}>
                     <AnimatePresence mode="wait">
-                      <motion.span key={statusText} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} className={styles.statusText}>
-                        {statusText}
+                      <motion.span key={statusText + isPaused} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} className={`${styles.statusText} ${isPaused ? styles.pausedText : ''}`}>
+                        {isPaused ? 'Workflow paused' : statusText}
                       </motion.span>
                     </AnimatePresence>
                   </div>
@@ -555,6 +644,7 @@ export default function AutomationFlow() {
                 successNodes.includes(node.id) ? styles.success     : '',
                 node.id === 'checkmedia'       ? styles.nodeQA      : '',
                 node.id === 'publish'          ? styles.nodePublish : '',
+                activeNodes.includes(node.id) && isPaused ? styles.nodePaused : ''
               ].join(' ')}>
                 <div className={styles.anchorLeft}></div>
                 <div className={styles.anchorRight}></div>
@@ -570,6 +660,8 @@ export default function AutomationFlow() {
 
         {/* Zoom controls */}
         <div className={styles.zoomControls}>
+          <ControlButtons />
+          <div className={styles.zoomDivider} />
           <button onClick={zoomIn}  title="Zoom in"><FiPlus /></button>
           <button onClick={fitView} title="Fit view"><FiMaximize /></button>
           <button onClick={zoomOut} title="Zoom out"><FiMinus /></button>
