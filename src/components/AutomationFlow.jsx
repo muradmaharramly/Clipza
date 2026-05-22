@@ -330,7 +330,7 @@ export default function AutomationFlow() {
   }, [phase]);
 
   return (
-    <section className={styles.flowSection}>
+    <section className={styles.flowSection} id="workflow">
 
       {/* ── Two-column header ── */}
       <div className={styles.sectionHeader}>

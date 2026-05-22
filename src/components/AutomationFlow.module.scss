@@ -144,18 +144,24 @@
 }
 
 .terminalOutput {
-  background: rgba(0,0,0,0.35);
-  border-radius: 8px;
+  background:transparent;
+  border-radius: 15px;
   padding: 10px 14px;
   font-family: monospace;
   font-size: 0.8rem;
-  color: #fff;
+  color: $text-muted;
   display: flex;
   align-items: center;
   gap: 8px;
   min-height: 38px;
   word-break: break-all;
+  border: 1px solid $glass-border;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
 }
+
 
 .terminalPrompt { color: $primary; font-weight: bold; flex-shrink: 0; }
 .terminalText   { opacity: 0.9; }
@@ -368,10 +374,15 @@
 
 .statusPill {
   padding: 7px 14px;
-  background: rgba(255,255,255,0.04);
-  border-radius: 100px;
-  border: 1px solid rgba(255,255,255,0.07);
+  background: transparent;
+  border-radius: 15px;
+  border: 1px solid $glass-border;
   text-align: center;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  
 }
 
 .statusText {
@@ -678,7 +689,7 @@
     width: 32px; height: 32px;
     border-radius: 8px !important;
     background: transparent !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid $glass-border;
     color: #fff; font-size: 1rem;
     cursor: pointer;
     display: flex !important;
@@ -690,7 +701,7 @@
     backdrop-filter: blur(10px);
     box-shadow: none !important;
     &:hover {
-      background: rgba(255, 255, 255, 0.06) !important;
+      
       transform: none !important;
       .btn-icon-wrapper { transform: none !important; }
     }
@@ -730,13 +741,7 @@
   }
 
   .zoomControls button {
-    background: rgba(0, 0, 0, 0.05) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
     color: #000;
-    
-    &:hover {
-      background: rgba(0, 0, 0, 0.1) !important;
-    }
   }
 
   .canvasHint {
@@ -762,11 +767,6 @@
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
   }
 
-  .terminalOutput {
-    background: rgba(0, 0, 0, 0.05);
-    color: #333;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-  }
 
   .stepWrapper {
     &.stepDone {
@@ -824,10 +824,5 @@
 
   .successSubtext {
     color: #64748b; // A nice slate gray for light mode
-  }
-
-  .statusPill {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background: rgba(0, 0, 0, 0.02);
   }
 }

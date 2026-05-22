@@ -113,7 +113,7 @@
 }
 
 .topSection {
-  background: #000;
+  background: transparent;
   padding: 60px 20px;
   display: flex;
   justify-content: center;
@@ -158,7 +158,7 @@
   width: 100px;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.841));
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.456));
 }
 
 .bottomSection {

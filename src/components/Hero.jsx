@@ -106,7 +106,7 @@ const Hero = () => {
   const springConfig = { type: "spring", stiffness: 100, damping: 20 };
 
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} id="home">
       <canvas ref={canvasRef} className={styles.canvas} />
       <div className={styles.content}>
         <motion.div

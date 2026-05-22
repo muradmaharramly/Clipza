@@ -109,7 +109,6 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
   background: transparent;
   border-radius: 100px;
   font-size: 0.8rem;
@@ -118,11 +117,6 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 24px;
-  
-  [data-theme="light"] & {
-    background: rgba(0,0,0,0.05);
-    border-color: rgba(0,0,0,0.1);
-  }
   
   svg {
     font-size: 1rem;
