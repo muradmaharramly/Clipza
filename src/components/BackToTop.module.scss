@@ -1,0 +1,83 @@
+@use '../styles/ThemeVariables.scss' as *;
+
+.backToTopBtn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-main;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  padding: 0 !important;
+
+  @media (max-width: 768px) {
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+  }
+
+  // Spinning light border
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      transparent 0deg,
+      transparent 180deg,
+      $primary 270deg,
+      transparent 360deg
+    );
+    animation: spinLight 4s linear infinite;
+    z-index: 0;
+  }
+
+  // Inner background
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: $bg-dark;
+    border-radius: 50%;
+    z-index: 1;
+    backdrop-filter: blur(16px);
+  }
+
+  [data-theme="light"] & {
+    &::after {
+      background: #f8fafce0;
+    }
+  }
+
+  .icon {
+    font-size: 1.4rem;
+    z-index: 2;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  &:hover {
+    box-shadow: 0 10px 40px var(--primary-low-grad-start);
+    
+    .icon {
+      color: $primary;
+    }
+  }
+}
+
+@keyframes spinLight {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}

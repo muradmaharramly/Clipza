@@ -10,6 +10,7 @@ import Pricing from './components/Pricing';
 import FAQ from './components/FAQ';
 import CtaSection from './components/CtaSection';
 import Footer from './components/Footer';
+import BackToTop from './components/BackToTop';
 import './styles/Global.scss';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <PreOrderSubscribe />
       <FAQ />
       <Footer />
+      <BackToTop />
     </div>
   );
 }

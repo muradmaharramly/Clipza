@@ -94,7 +94,7 @@
 .socialBtn {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: 12px;
   background: transparent;
   border: 1px solid $glass-border;
   display: flex;
@@ -103,7 +103,10 @@
   color: $text-muted;
   font-size: 1.1rem;
   transition: all 0.3s ease;
-
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
   &:hover {
     color: $primary;
     background: rgba($primary, 0.1);
