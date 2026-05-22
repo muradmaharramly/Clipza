@@ -181,6 +181,18 @@
       cursor: not-allowed;
     }
   }
+
+  .cancelBtn {
+    color: #ef4444;
+    &:hover:not(:disabled) {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+      
+      [data-theme="light"] & {
+        background: rgba(239, 68, 68, 0.1);
+      }
+    }
+  }
 }
 
 .liveDot {
@@ -764,6 +776,18 @@
   }
 }
 
+// ── Canvas Top Controls ──────────────────────────────────
+.canvasTopControls {
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 20;
+  background: transparent;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 4px;
+
+}
+
 // ── Zoom controls ─────────────────────────────────────────
 .zoomControls {
   position: absolute;
@@ -772,24 +796,30 @@
   z-index: 20;
 
   button {
-    width: 32px; height: 32px;
-    border-radius: 8px !important;
-    background: transparent !important;
-    border: 1px solid $glass-border;
-    color: #fff; font-size: 1rem;
+    background: transparent;
+    border: none;
+    color: $text-muted;
+    font-size: 1rem;
     cursor: pointer;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    gap: 0 !important;
-    transition: background 0.2s;
-    backdrop-filter: blur(10px);
-    box-shadow: none !important;
-    &:hover {
+    padding: 8px !important;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    &:hover:not(:disabled) {
+      color: $text-main;
+      background: rgba(255, 255, 255, 0.1);
       
-      transform: none !important;
-      .btn-icon-wrapper { transform: none !important; }
+      [data-theme="light"] & {
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
     }
   }
 }

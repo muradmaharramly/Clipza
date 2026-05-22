@@ -409,7 +409,7 @@ export default function AutomationFlow() {
       <button onClick={restartSequence} title="Restart" disabled={!isRunning && phase === 0}>
         <FiRefreshCw />
       </button>
-      <button onClick={cancelSequence} title="Cancel" disabled={!isRunning && phase === 0}>
+      <button className={styles.cancelBtn} onClick={cancelSequence} title="Cancel" disabled={!isRunning && phase === 0}>
         <FiXSquare />
       </button>
     </div>
@@ -658,10 +658,13 @@ export default function AutomationFlow() {
           ))}
         </div>
 
+        {/* Top controls (Pause, Restart, Cancel) */}
+        <div className={styles.canvasTopControls}>
+          <ControlButtons />
+        </div>
+
         {/* Zoom controls */}
         <div className={styles.zoomControls}>
-          <ControlButtons />
-          <div className={styles.zoomDivider} />
           <button onClick={zoomIn}  title="Zoom in"><FiPlus /></button>
           <button onClick={fitView} title="Fit view"><FiMaximize /></button>
           <button onClick={zoomOut} title="Zoom out"><FiMinus /></button>
