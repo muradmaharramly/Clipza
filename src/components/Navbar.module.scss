@@ -154,17 +154,31 @@
   -webkit-text-fill-color: transparent;
   }
   &:hover {
-    background: $primary-low-grad;
-    border: 1px solid $glass-border;
-    color: #fff;
+    .redBtnText{
+    background: linear-gradient(90deg, #ff4343, #ff2a2a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+   [data-theme="light"] & {
+    background: linear-gradient(90deg, #e30000, #840101);
+    -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   }
-  
-  &.activeText {
-    color: #fff;
   }
-  
+}
   
 }
+
+.redPill {
+  background: $primary-low-grad !important;
+  border: 1px solid rgba(255, 0, 0, 0.3) !important;
+  box-shadow: inset 0 2px 4px rgba(255, 0, 0, 0.2) !important;
+  
+  [data-theme="light"] & {
+    background: rgba(255, 0, 0, 0.05) !important;
+    border: 1px solid rgba(255, 0, 0, 0.2) !important;
+  }
+}
+
 
 .dropdownContainer {
   position: relative;
@@ -322,6 +336,14 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
+  cursor: pointer;
+}
+
+.mobileDropdownItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
 }
 
 .redText {

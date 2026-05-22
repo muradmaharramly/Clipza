@@ -25,6 +25,7 @@ const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -157,14 +158,16 @@ const Navbar = () => {
                 <a 
                   key={link.name}
                   href={link.href}
-                  className={`${styles.navLink} ${isSpecial ? styles.redBtn : ''} ${isActive && !isSpecial ? styles.activeText : ''}`}
+                  className={`${styles.navLink} ${isSpecial ? styles.redBtn : ''} ${isActive && !isSpecial ? styles.activeText : ''} ${isActive && isSpecial ? styles.redActiveText : ''}`}
                   onClick={(e) => handleLinkClick(e, link)}
                 >
-                  <span className={styles.navLinkText}><span className={styles.redBtnText}>{link.name}</span></span>
-                  {isActive && !isSpecial && (
+                  <span className={styles.navLinkText}>
+                    {isSpecial ? <span className={styles.redBtnText}>{link.name}</span> : link.name}
+                  </span>
+                  {isActive && (
                     <motion.div 
                       layoutId="activePill" 
-                      className={styles.activePill} 
+                      className={`${styles.activePill} ${isSpecial ? styles.redPill : ''}`} 
                       transition={{ type: "spring", stiffness: 300, damping: 30 }} 
                     />
                   )}
@@ -204,17 +207,33 @@ const Navbar = () => {
             if (link.dropdown) {
               return (
                 <div key={link.name} className={styles.mobileDropdownContainer}>
-                  <div className={styles.mobileDropdownTitle}>{link.name}</div>
-                  {link.dropdown.map(sublink => (
-                     <a 
-                      key={sublink.name}
-                      href={sublink.href}
-                      className={activeSection === sublink.name ? styles.active : ''}
-                      onClick={(e) => handleLinkClick(e, sublink)}
-                    >
-                      {sublink.name}
-                    </a>
-                  ))}
+                  <div 
+                    className={styles.mobileDropdownTitle}
+                    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+                  >
+                    {link.name} <FiChevronDown className={`${styles.chevron} ${mobileDropdownOpen ? styles.open : ''}`} />
+                  </div>
+                  <AnimatePresence>
+                    {mobileDropdownOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className={styles.mobileDropdownItems}
+                      >
+                        {link.dropdown.map(sublink => (
+                          <a 
+                            key={sublink.name}
+                            href={sublink.href}
+                            className={activeSection === sublink.name ? styles.active : ''}
+                            onClick={(e) => handleLinkClick(e, sublink)}
+                          >
+                            {sublink.name}
+                          </a>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             }
