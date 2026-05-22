@@ -141,6 +141,7 @@
 .redBtn {
   background: transparent;
   color: $primary;
+  font-weight: $weight-medium;
   box-shadow: 0 4px 15px rgba($primary, 0.3);
   transition: all .3s ease;
   border: 1px solid transparent;
@@ -149,6 +150,7 @@
   -ms-transition: all .3s ease;
   -o-transition: all .3s ease;
   .redBtnText{
+    font-weight: $weight-medium;
     background: linear-gradient(90deg, #ff0000, #cc0000);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -199,14 +201,14 @@
   top: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(20, 20, 20, 0.9);
+  background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(20px);
   border: 1px solid $glass-border;
   border-radius: 16px;
   padding: 8px;
   display: flex;
   flex-direction: column;
-  min-width: 160px;
+  min-width: 180px;
   box-shadow: $shadow-soft;
   z-index: 10;
   

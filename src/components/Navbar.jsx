@@ -7,16 +7,17 @@ import MagneticButton from './MagneticButton';
 const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'Features', href: '#features' },
-  {
+  { name: 'Workflow', href: '#workflow' },
+   {
     name: 'Ecosystem',
     dropdown: [
       { name: 'Tools & Technologies', href: '#tools' },
-      { name: 'Companies', href: '#companies' }
+      { name: 'Companies', href: '#companies' },
+      { name: 'FAQ', href: '#faq' }
     ]
   },
-  { name: 'Workflow', href: '#workflow' },
   { name: 'Pricing', href: '#pricing' },
-  { name: 'FAQ', href: '#faq' },
+  
   { name: 'Pre-order', href: '#preorder', special: 'redBtn' }
 ];
 
@@ -27,6 +28,8 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -36,21 +39,38 @@ const Navbar = () => {
   // Update active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
+      if (isScrollingRef.current) return;
+
+      const scrollPosition = window.scrollY + 150; // added buffer
       
-      const flatLinks = navLinks.flatMap(l => l.dropdown ? [l, ...l.dropdown] : [l]);
+      const flatLinks = navLinks.flatMap(l => l.dropdown ? l.dropdown : [l]).filter(l => l.href);
       
-      for (const link of [...flatLinks].reverse()) {
-        if (!link.href) continue;
-        const section = document.querySelector(link.href);
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(link.name);
+      const sections = flatLinks.map(link => {
+        const element = document.querySelector(link.href);
+        return {
+          name: link.name,
+          offsetTop: element ? element.offsetTop : -1
+        };
+      }).filter(s => s.offsetTop !== -1);
+      
+      sections.sort((a, b) => b.offsetTop - a.offsetTop);
+      
+      // If at the very bottom of the page, set to the last section
+      const isBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50;
+      if (isBottom && sections.length > 0) {
+        setActiveSection(sections[0].name);
+        return;
+      }
+      
+      for (const section of sections) {
+        if (section.offsetTop <= scrollPosition) {
+          setActiveSection(section.name);
           return;
         }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -81,8 +101,15 @@ const Navbar = () => {
     if (link.href) {
       const element = document.querySelector(link.href);
       if (element) {
+        isScrollingRef.current = true;
+        clearTimeout(scrollTimeoutRef.current);
+        
         const topOffset = element.getBoundingClientRect().top + window.scrollY - 100;
         window.scrollTo({ top: topOffset, behavior: 'smooth' });
+
+        scrollTimeoutRef.current = setTimeout(() => {
+          isScrollingRef.current = false;
+        }, 1000);
       }
     }
   };

@@ -2,6 +2,9 @@
 
 .bentoSection {
   background: transparent;
+  @media (max-width: 900px) {
+    padding: 50px 0;
+  }
 }
 
 .container {
@@ -15,9 +18,14 @@
   margin-bottom: 64px; // Reduced from 80px
 
   h2 {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+     font-size: clamp(2rem, 4vw, 2.8rem);
     margin-bottom: 16px;
-    letter-spacing: -0.05em;
+    font-weight: $weight-extra;
+    color: transparent;
+    background: $primary-grad;
+    background-clip: text;
+    -webkit-background-clip: text;
+    letter-spacing: -0.04em;
   }
 
   p {

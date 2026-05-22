@@ -1,11 +1,14 @@
 @use '../styles/ThemeVariables.scss' as *;
 
 .section {
-  padding: 100px 0;
+  padding: 80px 0;
   position: relative;
   overflow: hidden;
   background: transparent;
   margin-bottom: -200px;
+  @media (max-width: 900px) {
+    padding: 50px 0;
+  }
 
   &::before {
     content: '';

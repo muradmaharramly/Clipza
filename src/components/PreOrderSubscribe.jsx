@@ -30,7 +30,7 @@ export default function PreOrderSubscribe() {
           <div className={styles.glow} />
           <div className={styles.splitLayout}>
             <div className={styles.leftContent}>
-              <h2>Secure Your Early Access</h2>
+              <h2>Secure Your <span className={styles.highlighted}>Early</span> Access</h2>
               <p>
                 Join the waitlist to secure your spot and lock in an exclusive <span className={styles.highlighted}>20%</span> lifetime discount on our premium plans.
               </p>

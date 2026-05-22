@@ -107,7 +107,6 @@ const Hero = () => {
 
   return (
     <section className={styles.hero} id="home">
-      <canvas ref={canvasRef} className={styles.canvas} />
       <div className={styles.content}>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
