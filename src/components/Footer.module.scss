@@ -6,6 +6,9 @@
   background: transparent;
   overflow: hidden;
   border-top: $border-thin;
+  @media (max-width: 768px) {
+    padding: 30px 0 0;
+  }
 }
 
 .container {
@@ -23,19 +26,29 @@
   margin-bottom: 20px;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 48px;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 24px;
   }
 }
 
 .brandCol {
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 .linksCol {
   display: flex;
   flex-direction: column;
+  @media (max-width: 768px) {
+    justify-content: space-around;
+    text-align: center;
+  }
 }
 
 .copyright {
@@ -43,6 +56,9 @@
   font-size: 0.85rem;
   font-weight: $weight-medium;
   margin: 0 0 16px;
+  @media (max-width: 768px) {
+    margin: 0 0 5px;
+  }
 }
 
 .colTitle {
@@ -50,6 +66,12 @@
   font-size: 0.85rem;
   font-weight: $weight-medium;
   margin: 0 0 16px;
+  @media (max-width: 768px) {
+    grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+    margin: 0 0 0px;
+  }
 }
 
 .divider {
@@ -57,6 +79,10 @@
   width: 100%;
   background: linear-gradient(90deg, rgba($primary, 0.3) 0%, transparent 100%);
   margin-bottom: 24px;
+
+  @media (max-width: 768px) {
+    background: linear-gradient(90deg, transparent 0%, rgba($primary, 0.4) 50%, transparent 100%);
+  }
 }
 
 .socialIcons {
@@ -104,6 +130,9 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  @media (max-width: 768px) {
+    gap: 5px;
+  }
 
   li a {
     color: $text-muted;
@@ -119,17 +148,22 @@
 
 .massiveLogoWrapper {
   width: 100%;
+  height: 50vh;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   pointer-events: none;
   margin-top: 0px;
+  padding: 10px;
+  @media (max-width: 768px) {
+    height: 20vh;
+  }
 }
 
 .massiveLogo {
   font-size: clamp(8rem, 30vw, 28rem);
   font-weight: 900;
-  line-height: 0.7;
+  line-height: 1;
   margin: 0;
   color: $primary;
   opacity: 0.15;
@@ -137,9 +171,16 @@
   user-select: none;
   transform: translateY(0%);
   -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
-  mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+  mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
   -webkit-transform: translateY(0%);
   -moz-transform: translateY(0%);
   -ms-transform: translateY(0%);
   -o-transform: translateY(0%);
+  @media (max-width: 768px) {
+    transform: translateY(-20%);
+    -webkit-transform: translateY(-20%);
+    -moz-transform: translateY(-20%);
+    -ms-transform: translateY(-20%);
+    -o-transform: translateY(-20%);
+}
 }
