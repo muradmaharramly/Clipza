@@ -15,7 +15,7 @@ const Marquee = () => {
   const items = [...logos, ...logos]; // 12 items to form a complete ring
 
   return (
-    <div className={styles.marquee}>
+    <div className={styles.marquee} id="companies">
       <div className={styles.titleWrapper}>
         <p>Companies we collaborate with</p>
       </div>

@@ -18,7 +18,7 @@ export default function PreOrderSubscribe() {
   };
 
   return (
-    <section className={styles.preOrderSection}>
+    <section className={styles.preOrderSection} id="preorder">
       <div className={styles.container}>
         <motion.div 
           className={styles.layoutWrapper}

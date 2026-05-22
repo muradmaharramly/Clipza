@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FiArrowRight, FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiArrowRight, FiMenu, FiX, FiSun, FiMoon, FiChevronDown } from 'react-icons/fi';
 import styles from './Navbar.module.scss';
 import MagneticButton from './MagneticButton';
 
 const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'Features', href: '#features' },
+  {
+    name: 'Ecosystem',
+    dropdown: [
+      { name: 'Tools & Technologies', href: '#tools' },
+      { name: 'Companies', href: '#companies' }
+    ]
+  },
   { name: 'Workflow', href: '#workflow' },
   { name: 'Pricing', href: '#pricing' },
   { name: 'FAQ', href: '#faq' },
+  { name: 'Pre-order', href: '#preorder', special: 'redBtn' }
 ];
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('Home');
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -25,33 +35,54 @@ const Navbar = () => {
   // Update active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100; // offset for navbar
+      const scrollPosition = window.scrollY + 100;
       
-      for (const link of navLinks.reverse()) {
+      const flatLinks = navLinks.flatMap(l => l.dropdown ? [l, ...l.dropdown] : [l]);
+      
+      for (const link of [...flatLinks].reverse()) {
+        if (!link.href) continue;
         const section = document.querySelector(link.href);
         if (section && section.offsetTop <= scrollPosition) {
           setActiveSection(link.name);
-          navLinks.reverse(); // restore order
           return;
         }
       }
-      navLinks.reverse();
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   const handleLinkClick = (e, link) => {
+    if (link.dropdown) {
+      e.preventDefault();
+      setDropdownOpen(!dropdownOpen);
+      return;
+    }
+    
     e.preventDefault();
     setActiveSection(link.name);
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(link.href);
-    if (element) {
-      const topOffset = element.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: topOffset, behavior: 'smooth' });
+    setDropdownOpen(false);
+    
+    if (link.href) {
+      const element = document.querySelector(link.href);
+      if (element) {
+        const topOffset = element.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      }
     }
   };
 
@@ -74,16 +105,72 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
           >
-            {navLinks.map((link) => (
-              <a 
-                key={link.name}
-                href={link.href}
-                className={activeSection === link.name ? styles.active : ''}
-                onClick={(e) => handleLinkClick(e, link)}
-              >
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              if (link.dropdown) {
+                const isActive = activeSection === link.name || link.dropdown.some(sl => sl.name === activeSection);
+                return (
+                  <div key={link.name} className={styles.dropdownContainer} ref={dropdownRef}>
+                    <div
+                      className={`${styles.navLink} ${isActive ? styles.activeText : ''}`}
+                      onClick={(e) => handleLinkClick(e, link)}
+                    >
+                      <span className={styles.navLinkText}>{link.name}</span>
+                      <FiChevronDown className={`${styles.chevron} ${dropdownOpen ? styles.open : ''}`} />
+                      {isActive && (
+                        <motion.div 
+                          layoutId="activePill" 
+                          className={styles.activePill} 
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+                        />
+                      )}
+                    </div>
+                    <AnimatePresence>
+                      {dropdownOpen && (
+                        <motion.div 
+                          className={styles.dropdownMenu}
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {link.dropdown.map(sublink => (
+                            <a 
+                              key={sublink.name} 
+                              href={sublink.href} 
+                              className={styles.dropdownItem}
+                              onClick={(e) => { e.stopPropagation(); handleLinkClick(e, sublink); }}
+                            >
+                              {sublink.name}
+                            </a>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+              
+              const isSpecial = link.special === 'redBtn';
+              const isActive = activeSection === link.name;
+              
+              return (
+                <a 
+                  key={link.name}
+                  href={link.href}
+                  className={`${styles.navLink} ${isSpecial ? styles.redBtn : ''} ${isActive && !isSpecial ? styles.activeText : ''}`}
+                  onClick={(e) => handleLinkClick(e, link)}
+                >
+                  <span className={styles.navLinkText}><span className={styles.redBtnText}>{link.name}</span></span>
+                  {isActive && !isSpecial && (
+                    <motion.div 
+                      layoutId="activePill" 
+                      className={styles.activePill} 
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+                    />
+                  )}
+                </a>
+              );
+            })}
           </motion.div>
           
           <motion.div
@@ -113,16 +200,35 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
         <div className={styles.mobileLinks}>
-          {navLinks.map((link) => (
-            <a 
-              key={link.name}
-              href={link.href}
-              className={activeSection === link.name ? styles.active : ''}
-              onClick={(e) => handleLinkClick(e, link)}
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            if (link.dropdown) {
+              return (
+                <div key={link.name} className={styles.mobileDropdownContainer}>
+                  <div className={styles.mobileDropdownTitle}>{link.name}</div>
+                  {link.dropdown.map(sublink => (
+                     <a 
+                      key={sublink.name}
+                      href={sublink.href}
+                      className={activeSection === sublink.name ? styles.active : ''}
+                      onClick={(e) => handleLinkClick(e, sublink)}
+                    >
+                      {sublink.name}
+                    </a>
+                  ))}
+                </div>
+              );
+            }
+            return (
+              <a 
+                key={link.name}
+                href={link.href}
+                className={`${activeSection === link.name ? styles.active : ''} ${link.special ? styles.redText : ''}`}
+                onClick={(e) => handleLinkClick(e, link)}
+              >
+                {link.name}
+              </a>
+            );
+          })}
           <div className={styles.mobileActions}>
              <MagneticButton className={styles.btnStarted} icon={<FiArrowRight />}>
                Get Started

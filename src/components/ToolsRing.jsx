@@ -19,7 +19,7 @@ const ToolsRing = () => {
   const items = [...tools, ...tools];
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="tools">
       <div className={styles.container}>
         <div className={styles.ringWrapper}>
           <div className={styles.ring}>

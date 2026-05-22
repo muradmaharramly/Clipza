@@ -8,7 +8,10 @@
   z-index: 1000;
   display: flex;
   justify-content: center;
-  pointer-events: none; /* Let clicks pass through outside the pill */
+  pointer-events: none; 
+  @media (max-width: 900px) {
+    top: 5px;
+  }
 }
 
 .pillContainer {
@@ -30,6 +33,10 @@
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+  }
+   @media (max-width: 900px) {
+    width: 100%;
+    padding: 6px 12px;
   }
 }
 
@@ -84,30 +91,132 @@
   display: flex;
   gap: 8px;
   align-items: center;
+}
 
-  a {
-    color: $text-muted;
-    font-weight: $weight-medium;
-    font-size: 14px;
-    letter-spacing: -0.01em;
-    padding: 8px 20px;
-    border-radius: 100px;
-    transition: $transition-fast;
-    text-decoration: none;
+.navLink {
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $text-muted;
+  font-weight: $weight-medium;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  padding: 8px 20px;
+  border-radius: 100px;
+  transition: color $transition-fast;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 
-    &:hover {
-      color: $text-main;
-    }
+  &:hover {
+    color: $text-main;
+  }
+  
+  &.activeText {
+    color: $text-main;
+  }
+}
+
+.navLinkText {
+  position: relative;
+  z-index: 1;
+}
+
+.activePill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 100px;
+  z-index: 0;
+  border: 1px solid $glass-border;
+  
+}
+
+.redBtn {
+  background: transparent;
+  color: $primary;
+  box-shadow: 0 4px 15px rgba($primary, 0.3);
+  transition: all .3s ease;
+  border: 1px solid transparent;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  .redBtnText{
+    background: linear-gradient(90deg, #ff0000, #cc0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  }
+  &:hover {
+    background: $primary-low-grad;
+    border: 1px solid $glass-border;
+    color: #fff;
+  }
+  
+  &.activeText {
+    color: #fff;
+  }
+  
+  
+}
+
+.dropdownContainer {
+  position: relative;
+}
+
+.chevron {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid $glass-border;
+  border-radius: 16px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  box-shadow: $shadow-soft;
+  z-index: 10;
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0,0,0,0.1);
+  }
+}
+
+.dropdownItem {
+  color: $text-muted;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: $weight-medium;
+  transition: $transition-fast;
+  
+  &:hover {
+    color: $text-main;
+    background: rgba(255,255,255,0.05);
     
-    &.active {
-      color: $text-main;
-      background: transparent;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
-      border: 1px solid $glass-border;
-      
-      [data-theme="light"] & {
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05), inset 0 -2px 4px rgba(255, 255, 255, 0.5);
-      }
+    [data-theme="light"] & {
+      background: rgba(0,0,0,0.05);
     }
   }
 }
@@ -177,12 +286,12 @@
 .mobileLinks {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
   text-align: center;
   
   a {
     color: $text-muted;
-    font-size: 1.8rem;
+    font-size: 1rem;
     font-weight: $weight-bold;
     text-decoration: none;
     transition: color 0.3s ease;
@@ -195,6 +304,28 @@
 
 .mobileActions {
   margin-top: 32px;
+}
+
+.mobileDropdownContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobileDropdownTitle {
+  color: $text-muted;
+  font-size: 1.2rem;
+  font-weight: $weight-medium;
+  letter-spacing: 0.05em;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.redText {
+  color: $primary !important;
 }
 
 @media (max-width: 900px) {
