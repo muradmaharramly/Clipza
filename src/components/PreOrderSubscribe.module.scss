@@ -5,7 +5,7 @@
   position: relative;
   overflow: visible;
   @media (max-width: 900px) {
-    padding: 50px 0;
+    padding: 20px 0;
   }
 }
 
@@ -71,6 +71,9 @@
     -webkit-background-clip: text;
     letter-spacing: -0.04em;
     }
+    @media (max-width: 900px) {
+    text-align: center;
+  }
   }
 
   p {
